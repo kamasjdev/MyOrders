@@ -9,40 +9,47 @@ namespace MyOrders.Core.Entities
         public OrderNumber OrderNumber { get; private set; }
         public Price Price { get; private set; }
         public Customer Customer { get; private set; }
+        public DateTime Created { get; }
+        public DateTime? Modified { get; private set; }
 
         public IEnumerable<OrderItem> OrderItems => _orderItems;
         private IList<OrderItem> _orderItems = new List<OrderItem>();
 
-        public Order(EntityId id, OrderNumber orderNumber, Price price, Customer customer, IEnumerable<OrderItem> orderItems = null)
+        public Order(EntityId id, OrderNumber orderNumber, Price price, Customer customer, DateTime created, DateTime? modified = null, IEnumerable<OrderItem> orderItems = null)
         {
             Id = id;
             OrderNumber = orderNumber;
             Price = price;
             Customer = customer;
+            Created = created;
+            Modified = modified;
             _orderItems = orderItems?.ToList();
         }
 
-        public static Order Create(OrderNumber orderNumber, Price price, Customer customer, IEnumerable<OrderItem> orderItems = null)
+        public static Order Create(OrderNumber orderNumber, Price price, Customer customer, DateTime created, IEnumerable<OrderItem> orderItems = null)
         {
-            return new Order(0, orderNumber, price, customer, orderItems);
+            return new Order(0, orderNumber, price, customer, created, orderItems: orderItems);
         }
 
-        public void ChangeOrderNumber(OrderNumber orderNumber)
+        public void ChangeOrderNumber(OrderNumber orderNumber, DateTime modified)
         {
             OrderNumber = orderNumber;
+            Modified = modified;
         }
 
-        public void ChangePrice(Price price)
+        public void ChangePrice(Price price, DateTime modified)
         {
             Price = price;
+            Modified = modified;
         }
 
-        public void ChangeCustomer(Customer customer)
+        public void ChangeCustomer(Customer customer, DateTime modified)
         {
             Customer = customer;
+            Modified = modified;
         }
 
-        public void AddOrderItem(OrderItem orderItem)
+        public void AddOrderItem(OrderItem orderItem, DateTime modified)
         {
             if (orderItem is null)
             {
@@ -57,9 +64,10 @@ namespace MyOrders.Core.Entities
             }
 
             _orderItems.Add(orderItem);
+            Modified = modified;
         }
 
-        public void RemoveOrderItem(OrderItem orderItem)
+        public void RemoveOrderItem(OrderItem orderItem, DateTime modified)
         {
             if (orderItem is null)
             {
@@ -74,6 +82,7 @@ namespace MyOrders.Core.Entities
             }
 
             _orderItems.Remove(orderItem);
+            Modified = modified;
         }
     }
 }

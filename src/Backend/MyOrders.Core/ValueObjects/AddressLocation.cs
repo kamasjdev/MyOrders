@@ -95,7 +95,7 @@ namespace MyOrders.Core.ValueObjects
 
         private static void ValidateBuildingNumber(int buildingNumber)
         {
-            if (buildingNumber < 0)
+            if (buildingNumber < 1)
             {
                 throw new DomainException("Invalid BuildingNumber");
             }
@@ -103,7 +103,7 @@ namespace MyOrders.Core.ValueObjects
 
         private static void ValidateFlatNumber(int flatNumber)
         {
-            if (flatNumber < 0)
+            if (flatNumber < 1)
             {
                 throw new DomainException("Invalid FlatNumber");
             }
