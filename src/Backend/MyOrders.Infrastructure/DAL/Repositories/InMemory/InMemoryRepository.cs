@@ -1,9 +1,10 @@
 ﻿using MyOrders.Core.Entities;
+using MyOrders.Core.ValueObjects;
 using System.Reflection;
 
 namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
 {
-    public sealed class InMemoryRepository<T> : IInMemoryRepository<T>
+    internal sealed class InMemoryRepository<T> : IInMemoryRepository<T>
         where T : class, IBaseEntity
     {
         private readonly IList<T> _entities = new List<T>();
@@ -40,7 +41,7 @@ namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
         private static void SetId(T entity, int id)
         {
             var field = typeof(T).GetField($"<{nameof(IBaseEntity.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
-            field.SetValue(entity, id);
+            field.SetValue(entity, new EntityId(id));
         }
     }
 }
