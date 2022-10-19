@@ -1,6 +1,6 @@
 ﻿namespace MyOrders.Core
 {
-    public class Extensions
+    public static class Extensions
     {
 
     }

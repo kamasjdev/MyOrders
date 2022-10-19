@@ -1,7 +1,12 @@
-﻿namespace MyOrders.Application
-{
-    public class Extensions
-    {
+﻿using Microsoft.Extensions.DependencyInjection;
 
+namespace MyOrders.Application
+{
+    public static class Extensions
+    {
+        public static IServiceCollection AddApplication(this IServiceCollection services)
+        {
+            return services;
+        }
     }
 }
