@@ -2,7 +2,7 @@
 
 namespace MyOrders.Core.Entities
 {
-    public class ContactData
+    public class ContactData : IBaseEntity
     {
         public EntityId Id { get; }
         public Email Email { get; private set; }

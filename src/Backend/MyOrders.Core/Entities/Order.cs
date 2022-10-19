@@ -3,7 +3,7 @@ using MyOrders.Core.ValueObjects;
 
 namespace MyOrders.Core.Entities
 {
-    public class Order
+    public class Order : IBaseEntity
     {
         public EntityId Id { get; }
         public OrderNumber OrderNumber { get; private set; }

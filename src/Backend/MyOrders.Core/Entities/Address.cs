@@ -2,7 +2,7 @@
 
 namespace MyOrders.Core.Entities
 {
-    public class Address
+    public class Address : IBaseEntity
     {
         public EntityId Id { get; }
         public AddressLocation AddressLocation { get; private set; }

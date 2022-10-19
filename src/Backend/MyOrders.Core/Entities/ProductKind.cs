@@ -2,7 +2,7 @@
 
 namespace MyOrders.Core.Entities
 {
-    public class ProductKind
+    public class ProductKind : IBaseEntity
     {
         public EntityId Id { get; }
         public ProductKindName ProductKindName { get; private set; }
