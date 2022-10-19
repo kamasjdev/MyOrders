@@ -27,7 +27,7 @@ namespace MyOrders.Core.ValueObjects
             var countryCodeToCheck = countryCode.Replace("+", string.Empty);
             CountryCode = countryCodeToCheck.All(char.IsDigit)
                 ? countryCode
-                : throw new DomainException($"Invalid CountryCode '{countryCode}' in PhoneNumber. Allowed digits only.");
+                : throw new DomainException($"Invalid CountryCode '{countryCode}' in PhoneNumber. Allowed digits starts with plus ('+') for example '+48'");
             Numbers = numbers.All(char.IsDigit)
                 ? numbers
                 : throw new DomainException($"Invalid Numbers '{numbers}' in PhoneNumber. Allowed digits only.");

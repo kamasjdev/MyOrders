@@ -64,6 +64,7 @@ namespace MyOrders.Core.Entities
             }
 
             _orderItems.Add(orderItem);
+            Price += orderItem.Product.Price;
             Modified = modified;
         }
 
@@ -82,6 +83,7 @@ namespace MyOrders.Core.Entities
             }
 
             _orderItems.Remove(orderItem);
+            Price -= orderItem.Product.Price;
             Modified = modified;
         }
     }
