@@ -35,7 +35,7 @@ namespace MyOrders.Application.Services
             await _customerRepository.DeleteAsync(customer);
         }
 
-        public async Task<IEnumerable<CustomerDto>> GetAll()
+        public async Task<IEnumerable<CustomerDto>> GetAllAsync()
         {
             return (await _customerRepository.GetAllAsync()).Select(c => c.AsDto());
         }

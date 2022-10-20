@@ -23,10 +23,10 @@ namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
             return Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<OrderItem>> GetAllByCustomerId(int customerId)
+        public async Task<IEnumerable<OrderItem>> GetAllNotOrderedByCustomerId(int customerId)
         {
             await Task.CompletedTask;
-            return _repository.GetAll().Where(oi => oi.Customer.Id == customerId);
+            return _repository.GetAll().Where(oi => oi.Customer.Id == customerId && oi.Order is null);
         }
 
         public Task<OrderItem> GetAsync(int id)

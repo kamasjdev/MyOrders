@@ -36,9 +36,9 @@ namespace MyOrders.Application.Services
             await _orderItemRepository.DeleteAsync(orderItem);
         }
 
-        public async Task<IEnumerable<OrderItemDto>> GetAllByCustomerId(int customerId)
+        public async Task<IEnumerable<OrderItemDto>> GetAllNotOrderedByCustomerIdAsync(int customerId)
         {
-            return (await _orderItemRepository.GetAllByCustomerId(customerId)).Select(oi => oi.AsDto());
+            return (await _orderItemRepository.GetAllNotOrderedByCustomerId(customerId)).Select(oi => oi.AsDto());
         }
 
         private async Task<Product> GetProductAsync(int id)

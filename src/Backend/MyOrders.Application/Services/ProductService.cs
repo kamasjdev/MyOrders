@@ -49,7 +49,7 @@ namespace MyOrders.Application.Services
             var product = await GetProductAsync(productDto.Id);
             product.ChangeProductName(productDto.ProductName);
             product.ChangeProductKind(productKind);
-            product.ChangePrice(product.Price);
+            product.ChangePrice(productDto.Price);
 
             return (await _productRepository.UpdateAsync(product)).AsDto();
         }

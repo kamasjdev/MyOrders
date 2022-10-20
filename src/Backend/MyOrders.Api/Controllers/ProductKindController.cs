@@ -4,9 +4,7 @@ using MyOrders.Application.DTO;
 
 namespace MyOrders.Api.Controllers
 {
-    [Route("api/product-kinds")]
-    [ApiController]
-    public class ProductKindsController : ControllerBase
+    public class ProductKindsController : BaseController
     {
         private readonly IProductKindService _productKindService;
 
@@ -22,16 +20,10 @@ namespace MyOrders.Api.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult> Get(int id)
+        public async Task<ActionResult<ProductKindDto>> Get(int id)
         {
             var productKind = await _productKindService.GetAsync(id);
-
-            if (productKind is null)
-            {
-                return NotFound();
-            }
-
-            return Ok(productKind);
+            return OkOrNotFound(productKind);
         }
 
         [HttpPost]
@@ -42,9 +34,9 @@ namespace MyOrders.Api.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ProductKindDto> Update(ProductKindDto productKindDto)
+        public async Task<ProductKindDto> Update(int id, ProductKindDto productKindDto)
         {
-            return await _productKindService.UpdateAsync(productKindDto);
+            return await _productKindService.UpdateAsync(productKindDto with { Id = id });
         }
 
         [HttpDelete("{id:int}")]
