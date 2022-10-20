@@ -28,5 +28,10 @@ namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
             await Task.CompletedTask;
             return _repository.GetAll().Where(oi => oi.Customer.Id == customerId);
         }
+
+        public Task<OrderItem> GetAsync(int id)
+        {
+            return Task.FromResult(_repository.Get(id));
+        }
     }
 }

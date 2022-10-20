@@ -24,13 +24,7 @@ namespace MyOrders.Application.Services
 
         public async Task DeleteAsync(int id)
         {
-            var productKind = await _productKindRepository.GetAsync(id);
-
-            if (productKind is null)
-            {
-                throw new BusinessException($"ProductKind with id: '{id}' was not found");
-            }
-
+            var productKind = await GetProductKindAsync(id);
             await _productKindRepository.DeleteAsync(productKind);
         }
 
@@ -46,15 +40,21 @@ namespace MyOrders.Application.Services
 
         public async Task<ProductKindDto> UpdateAsync(ProductKindDto productKindDto)
         {
-            var productKind = await _productKindRepository.GetAsync(productKindDto.Id);
+            var productKind = await GetProductKindAsync(productKindDto.Id);
+            productKind.ChangeProductKindName(productKindDto.ProductKindName);
+            return (await _productKindRepository.UpdateAsync(productKind)).AsDto();
+        }
+
+        private async Task<ProductKind> GetProductKindAsync(int id)
+        {
+            var productKind = await _productKindRepository.GetAsync(id);
 
             if (productKind is null)
             {
-                throw new BusinessException($"ProductKind with id: '{productKindDto.Id}' was not found");
+                throw new BusinessException($"ProductKind with id: '{id}' was not found");
             }
 
-            productKind.ChangeProductKindName(productKindDto.ProductKindName);
-            return (await _productKindRepository.UpdateAsync(productKind)).AsDto();
+            return productKind;
         }
     }
 }

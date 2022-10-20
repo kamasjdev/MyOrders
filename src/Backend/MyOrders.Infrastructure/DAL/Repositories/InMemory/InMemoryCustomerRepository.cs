@@ -24,7 +24,7 @@ namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
             return Task.CompletedTask;
         }
 
-        public async Task<IEnumerable<Customer>> GetAll()
+        public async Task<IEnumerable<Customer>> GetAllAsync()
         {
             await Task.CompletedTask;
             return _repository.GetAll();

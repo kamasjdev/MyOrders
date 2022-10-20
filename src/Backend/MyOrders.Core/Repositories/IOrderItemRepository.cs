@@ -7,5 +7,6 @@ namespace MyOrders.Core.Repositories
         Task<OrderItem> AddAsync(OrderItem orderItem);
         Task<IEnumerable<OrderItem>> GetAllByCustomerId(int customerId);
         Task DeleteAsync(OrderItem orderItem);
+        Task<OrderItem> GetAsync(int id);
     }
 }
