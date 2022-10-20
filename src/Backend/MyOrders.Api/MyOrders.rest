@@ -1,0 +1,32 @@
+@url = http://localhost:5000/api
+@productKindName = Kind#1
+@productKindId = 1
+
+###
+GET {{url}}
+
+###
+GET {{url}}/product-kinds
+
+###
+POST {{url}}/product-kinds
+Content-Type: application/json
+
+{
+    "productKindName": "{{productKindName}}"
+}
+
+###
+GET {{url}}/product-kinds/{{productKindId}}
+
+###
+PUT {{url}}/product-kinds/{{productKindId}}
+Content-Type: application/json
+
+{
+    "id": "{{productKindId}}",
+    "productKindName": "{{productKindName}}"
+}
+
+###
+DELETE {{url}}/product-kinds/{{productKindId}}

@@ -35,6 +35,11 @@ namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
 
         private int GetLastId()
         {
+            if (!_entities.Any())
+            {
+                return 0;
+            }
+
             return _entities.Max(e => e.Id);
         }
 

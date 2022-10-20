@@ -3,7 +3,7 @@ using MyOrders.Core.Repositories;
 
 namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
 {
-    public sealed class InMemoryContactDataRepository : IContactDataRepository
+    internal sealed class InMemoryContactDataRepository : IContactDataRepository
     {
         private readonly IInMemoryRepository<ContactData> _repository;
 

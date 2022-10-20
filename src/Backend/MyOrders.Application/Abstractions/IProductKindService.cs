@@ -8,5 +8,6 @@ namespace MyOrders.Application.Abstractions
         Task<ProductKindDto> UpdateAsync(ProductKindDto productKindDto);
         Task<ProductKindDto> GetAsync(int id);
         Task DeleteAsync(int id);
+        Task<IEnumerable<ProductKindDto>> GetAllAsync();
     }
 }

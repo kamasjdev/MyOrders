@@ -2,7 +2,7 @@
 
 namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
 {
-    public interface IInMemoryRepository<T>
+    internal interface IInMemoryRepository<T>
         where T : class, IBaseEntity
     {
         T Add(T entity);

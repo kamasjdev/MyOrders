@@ -8,5 +8,6 @@ namespace MyOrders.Core.Repositories
         Task<ProductKind> UpdateAsync(ProductKind productKind);
         Task<ProductKind> GetAsync(int id);
         Task DeleteAsync(ProductKind productKind);
+        Task<IEnumerable<ProductKind>> GetAllAsync();
     }
 }

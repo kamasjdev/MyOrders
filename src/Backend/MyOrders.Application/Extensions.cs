@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using MyOrders.Application.Abstractions;
+using MyOrders.Application.Services;
 
 namespace MyOrders.Application
 {
@@ -6,6 +8,8 @@ namespace MyOrders.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IProductKindService, ProductKindService>();
             return services;
         }
     }

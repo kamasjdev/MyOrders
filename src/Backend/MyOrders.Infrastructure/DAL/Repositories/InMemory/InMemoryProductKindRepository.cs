@@ -3,7 +3,7 @@ using MyOrders.Core.Repositories;
 
 namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
 {
-    public sealed class InMemoryProductKindRepository : IProductKindRepository
+    internal sealed class InMemoryProductKindRepository : IProductKindRepository
     {
         private readonly IInMemoryRepository<ProductKind> _repository;
 
@@ -26,6 +26,12 @@ namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
         public Task<ProductKind> GetAsync(int id)
         {
             return Task.FromResult(_repository.Get(id));
+        }
+
+        public async Task<IEnumerable<ProductKind>> GetAllAsync()
+        {
+            await Task.CompletedTask;
+            return _repository.GetAll();
         }
 
         public Task<ProductKind> UpdateAsync(ProductKind productKind)

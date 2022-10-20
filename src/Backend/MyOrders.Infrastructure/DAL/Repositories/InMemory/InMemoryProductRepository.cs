@@ -3,7 +3,7 @@ using MyOrders.Core.Repositories;
 
 namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
 {
-    public sealed class InMemoryProductRepository : IProductRepository
+    internal sealed class InMemoryProductRepository : IProductRepository
     {
         private readonly IInMemoryRepository<Product> _repository;
 
