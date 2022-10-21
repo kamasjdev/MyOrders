@@ -11,16 +11,18 @@ namespace MyOrders.Infrastructure.DAL.Configurations
         {
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Id)
-                .HasConversion(c => c.Value, id => new EntityId(id));
+                .HasConversion(c => c.Value, id => new EntityId(id))
+                .UseMySqlIdentityColumn();
 
-            builder.OwnsOne(c => c.Email, navigation =>
-            {
-                navigation.Property(e => e.Value).HasColumnName(nameof(ContactData.Email)).IsRequired().HasMaxLength(300);
-                navigation.HasIndex(e => e.Value);
-            });
+            builder.Property(c => c.Email)
+                .HasConversion(c => c.Value, mail => new Email(mail))
+                .IsRequired()
+                .HasMaxLength(300);
+            builder.HasIndex(c => c.Email);
 
             builder.Property(c => c.PhoneNumber).HasColumnName(nameof(ContactData.PhoneNumber))
-                .HasConversion(phone => phone.CountryCode + " " + phone.Numbers, phone => ExtractFromString(phone));
+                .HasConversion(phone => phone.CountryCode + " " + phone.Numbers, phone => ExtractFromString(phone))
+                .IsRequired().HasMaxLength(100);
 
             builder.HasIndex(c => c.PhoneNumber);
         }

@@ -8,8 +8,8 @@ namespace MyOrders.Core.Entities
         public Person Person { get; private set; }
         public Address Address { get; private set; }
         public ContactData ContactData { get; private set; }
-        public int AddressId { get; private set; }
-        public int ContactDataId { get; private set; }
+        public EntityId AddressId { get; private set; }
+        public EntityId ContactDataId { get; private set; }
 
         public IEnumerable<Order> Orders { get; }
         public IEnumerable<OrderItem> OrderItems { get; }

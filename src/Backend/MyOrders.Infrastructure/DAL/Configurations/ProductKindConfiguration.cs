@@ -11,13 +11,14 @@ namespace MyOrders.Infrastructure.DAL.Configurations
         {
             builder.HasKey(pk => pk.Id);
             builder.Property(pk => pk.Id)
-                .HasConversion(pk => pk.Value, id => new EntityId(id));
+                .HasConversion(pk => pk.Value, id => new EntityId(id))
+                .UseMySqlIdentityColumn();
 
-            builder.OwnsOne(pk => pk.ProductKindName, navigation =>
-            {
-                navigation.Property(pr => pr.Value).HasColumnName(nameof(ProductKind.ProductKindName)).IsRequired();
-                navigation.HasIndex(pr => pr.Value);
-            });
+            builder.Property(pk => pk.ProductKindName)
+                .HasConversion(pk => pk.Value, name => new ProductKindName(name))
+                .IsRequired()
+                .HasMaxLength(150);
+            builder.HasIndex(p => p.ProductKindName).IsUnique();
 
             builder.HasMany(pk => pk.Products).WithOne(p => p.ProductKind);
         }

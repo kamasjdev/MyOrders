@@ -7,6 +7,9 @@ namespace MyOrders.Core.ValueObjects
         public string CountryCode { get; }
         public string Numbers { get; }
 
+        private PhoneNumber()
+        { }
+
         public PhoneNumber(string countryCode, string numbers)
         {
             if (string.IsNullOrWhiteSpace(countryCode))

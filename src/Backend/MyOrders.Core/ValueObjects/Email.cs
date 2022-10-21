@@ -13,7 +13,7 @@ namespace MyOrders.Core.ValueObjects
         private readonly string _email;
         public string Value => _email;
 
-        private Email(string email)
+        public Email(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
             {

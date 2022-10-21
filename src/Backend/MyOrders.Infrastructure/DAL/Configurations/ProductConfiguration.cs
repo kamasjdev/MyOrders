@@ -11,19 +11,19 @@ namespace MyOrders.Infrastructure.DAL.Configurations
         {
             builder.HasKey(p => p.Id);
             builder.Property(p => p.Id)
-                .HasConversion(p => p.Value, id => new EntityId(id));
+                .HasConversion(p => p.Value, id => new EntityId(id))
+                .UseMySqlIdentityColumn();
 
-            builder.OwnsOne(p => p.ProductName, navigation =>
-            {
-                navigation.Property(pn => pn.Value).HasColumnName(nameof(Product.ProductName)).IsRequired();
-            });
-
-            builder.OwnsOne(p => p.Price, navigation =>
-            {
-                navigation.Property(pr => pr.Value).HasColumnName(nameof(Product.Price)).IsRequired();
-            });
-
+            builder.Property(p => p.ProductName)
+                .HasConversion(p => p.Value, mail => new ProductName(mail))
+                .IsRequired()
+                .HasMaxLength(200);
             builder.HasIndex(p => p.ProductName).IsUnique();
+
+            builder.Property(p => p.Price)
+                .HasConversion(c => c.Value, price => new Price(price))
+                .IsRequired()
+                .HasPrecision(14, 4);
         }
     }
 }

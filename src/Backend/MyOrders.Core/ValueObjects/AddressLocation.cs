@@ -10,6 +10,9 @@ namespace MyOrders.Core.ValueObjects
         public string CityName { get; }
         public string CountryName { get; }
 
+        private AddressLocation()
+        { }
+
         public AddressLocation(string countryName, string cityName, string streetName, int buildingNumber, int? flatNumber = null)
         {
             ValidateCountryName(countryName);

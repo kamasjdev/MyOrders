@@ -7,6 +7,9 @@ namespace MyOrders.Core.ValueObjects
         public string FirstName { get; }
         public string LastName { get; }
 
+        private Person()
+        { }
+
         public Person(string firstName, string lastName)
         {
             if (string.IsNullOrWhiteSpace(firstName))

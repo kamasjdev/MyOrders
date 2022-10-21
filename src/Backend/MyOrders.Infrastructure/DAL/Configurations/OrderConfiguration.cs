@@ -11,18 +11,20 @@ namespace MyOrders.Infrastructure.DAL.Configurations
         {
             builder.HasKey(o => o.Id);
             builder.Property(o => o.Id)
-                .HasConversion(o => o.Value, id => new EntityId(id));
+                .HasConversion(o => o.Value, id => new EntityId(id))
+                .UseMySqlIdentityColumn();
 
-            builder.OwnsOne(o => o.OrderNumber, navigation =>
-            {
-                navigation.Property(number => number.Value).HasColumnName(nameof(Order.OrderNumber)).IsRequired();
-                navigation.HasIndex(number => number.Value).IsUnique();
-            });
+            builder.Property(o => o.OrderNumber)
+                .HasConversion(o => o.Value, number => new OrderNumber(number))
+                .IsRequired()
+                .HasMaxLength(100);
+            builder.HasIndex(p => p.OrderNumber).IsUnique();
 
-            builder.OwnsOne(o => o.Price, navigation =>
-            {
-                navigation.Property(number => number.Value).HasColumnName(nameof(Order.Price)).IsRequired();
-            });
+
+            builder.Property(o => o.Price)
+                .HasConversion(o => o.Value, price => new Price(price))
+                .IsRequired()
+                .HasPrecision(14, 4);
 
             builder.Property(o => o.Created).IsRequired();
 

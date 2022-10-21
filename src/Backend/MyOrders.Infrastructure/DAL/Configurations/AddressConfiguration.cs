@@ -11,7 +11,8 @@ namespace MyOrders.Infrastructure.DAL.Configurations
         {
             builder.HasKey(a => a.Id);
             builder.Property(a => a.Id)
-                .HasConversion(a => a.Value, id => new EntityId(id));
+                .HasConversion(a => a.Value, id => new EntityId(id))
+                .UseMySqlIdentityColumn();
 
             builder.OwnsOne(a => a.AddressLocation, navigation =>
             {
@@ -22,11 +23,11 @@ namespace MyOrders.Infrastructure.DAL.Configurations
                 navigation.Property(ad => ad.FlatNumber).HasColumnName(nameof(Address.AddressLocation.FlatNumber));
             });
 
-            builder.OwnsOne(a => a.ZipCode, navigation =>
-            {
-                navigation.Property(z => z.Value).HasColumnName(nameof(Address.ZipCode)).HasMaxLength(100);
-                navigation.HasIndex(z => z.Value);
-            });
+            builder.Property(a => a.ZipCode)
+                .HasConversion(a => a.Value, code => new ZipCode(code))
+                .IsRequired()
+                .HasMaxLength(100);
+            builder.HasIndex(p => p.ZipCode);
         }
     }
 }

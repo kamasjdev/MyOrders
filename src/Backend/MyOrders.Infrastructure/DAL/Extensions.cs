@@ -23,7 +23,8 @@ namespace MyOrders.Infrastructure.DAL
             where T : DbContext
         {
             var options = services.GetOptions<MySqlOptions>("mysql");
-            services.AddDbContext<T>(context => context.UseMySQL(options.ConnectionString));
+            ServerVersion serverVersion = ServerVersion.AutoDetect(options.ConnectionString);
+            services.AddDbContext<T>(context => context.UseMySql(options.ConnectionString, serverVersion));
             return services;
         }
 
