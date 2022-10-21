@@ -16,9 +16,9 @@ namespace MyOrders.Infrastructure
             services.Configure<AppOptions>(configuration.GetRequiredSection("app"));
             services.AddControllers(options => options.UseDashedConventionInRouting());
             services.AddTime();
-            services.AddInMemoryRepositories();
             services.AddMySqlOptions();
             services.AddMySql<MyOrdersDbContext>();
+            services.AddRepositories();
             services.AddDatabaseInitializer();
             services.AddExceptionHandling();
             services.AddSwaggerGen();

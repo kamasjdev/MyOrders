@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using MyOrders.Core.Repositories;
 using MyOrders.Infrastructure.DAL.Initlializer;
+using MyOrders.Infrastructure.DAL.Repositories;
 using MyOrders.Infrastructure.DAL.Repositories.InMemory;
 
 namespace MyOrders.Infrastructure.DAL
@@ -45,6 +46,18 @@ namespace MyOrders.Infrastructure.DAL
             services.AddSingleton<IOrderRepository, InMemoryOrderRepository>();
             services.AddSingleton<IProductKindRepository, InMemoryProductKindRepository>();
             services.AddSingleton<IProductRepository, InMemoryProductRepository>();
+            return services;
+        }
+
+        public static IServiceCollection AddRepositories(this IServiceCollection services)
+        {
+            services.AddScoped<IAddressRepository, AddressRepository>();
+            services.AddScoped<IContactDataRepository, ContactDataRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IProductKindRepository, ProductKindRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
             return services;
         }
     }
