@@ -19,6 +19,7 @@ namespace MyOrders.Infrastructure
             services.AddInMemoryRepositories();
             services.AddMySqlOptions();
             services.AddMySql<MyOrdersDbContext>();
+            services.AddDatabaseInitializer();
             services.AddExceptionHandling();
             services.AddSwaggerGen();
             return services;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MyOrders.Core.Repositories;
+using MyOrders.Infrastructure.DAL.Initlializer;
 using MyOrders.Infrastructure.DAL.Repositories.InMemory;
 
 namespace MyOrders.Infrastructure.DAL
@@ -25,6 +26,12 @@ namespace MyOrders.Infrastructure.DAL
             var options = services.GetOptions<MySqlOptions>("mysql");
             ServerVersion serverVersion = ServerVersion.AutoDetect(options.ConnectionString);
             services.AddDbContext<T>(context => context.UseMySql(options.ConnectionString, serverVersion));
+            return services;
+        }
+
+        public static IServiceCollection AddDatabaseInitializer(this IServiceCollection services)
+        {
+            services.AddHostedService<DatabaseInitializer>();
             return services;
         }
 
