@@ -15,6 +15,9 @@ namespace MyOrders.Core.Entities
         public IEnumerable<OrderItem> OrderItems => _orderItems;
         private IList<OrderItem> _orderItems = new List<OrderItem>();
 
+        private Order()
+        { }
+
         public Order(EntityId id, OrderNumber orderNumber, Price price, Customer customer, DateTime created, DateTime? modified = null, IEnumerable<OrderItem> orderItems = null)
         {
             Id = id;
@@ -23,7 +26,11 @@ namespace MyOrders.Core.Entities
             Customer = customer;
             Created = created;
             Modified = modified;
-            _orderItems = orderItems?.ToList();
+
+            if (orderItems is not null)
+            {
+                _orderItems = orderItems.ToList();
+            }
         }
 
         public static Order Create(OrderNumber orderNumber, Price price, Customer customer, DateTime created, IEnumerable<OrderItem> orderItems = null)

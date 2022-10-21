@@ -2,26 +2,21 @@
 
 namespace MyOrders.Core.ValueObjects
 {
-    public class OrderNumber : IEquatable<OrderNumber>
+    public class ZipCode : IEquatable<ZipCode>
     {
         public string Value { get; }
 
-        public OrderNumber(string value)
+        public ZipCode(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new DomainException("Invalid OrderNumber");
-            }
-
-            if (value.Length < 3)
-            {
-                throw new DomainException($"OrderNumber '{value}' is too short");
+                throw new DomainException("Invalid ZipCode");
             }
 
             Value = value;
         }
 
-        public bool Equals(OrderNumber other)
+        public bool Equals(ZipCode other)
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
@@ -32,8 +27,8 @@ namespace MyOrders.Core.ValueObjects
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj as OrderNumber == null) return false;
-            return Equals((OrderNumber)obj);
+            if (obj as ZipCode == null) return false;
+            return Equals((ZipCode)obj);
         }
 
         public override int GetHashCode()
@@ -46,10 +41,10 @@ namespace MyOrders.Core.ValueObjects
             return Value;
         }
 
-        public static implicit operator string(OrderNumber orderNumber)
-            => orderNumber.Value;
+        public static implicit operator string(ZipCode zipCode)
+            => zipCode.Value;
 
-        public static implicit operator OrderNumber(string value)
-            => new(value);
+        public static implicit operator ZipCode(string zipCode)
+            => new(zipCode);
     }
 }

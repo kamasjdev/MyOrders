@@ -10,6 +10,9 @@ namespace MyOrders.Core.Entities
         public Order Order { get; private set; } = null;
         public DateTime Created { get; }
 
+        private OrderItem()
+        { }
+
         public OrderItem(EntityId id, Product product, Customer customer, DateTime created, Order order = null)
         {
             Id = id;

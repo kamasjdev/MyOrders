@@ -62,6 +62,13 @@ namespace MyOrders.Application.Services
 
             foreach (var orderItemId in updateOrderDto.OrderItemIds)
             {
+                var orderItemExists = order.OrderItems.Any(oi => oi.Id == orderItemId);
+
+                if (orderItemExists)
+                {
+                    continue;
+                }
+
                 var orderItem = await GetOrderItemAsync(orderItemId);
                 order.AddOrderItem(orderItem, _clock.CurrentDateTime());
             }
@@ -69,9 +76,9 @@ namespace MyOrders.Application.Services
             var orderItems = new List<OrderItem>(order.OrderItems);
             foreach(var orderItem in orderItems)
             {
-                var orderItemExists = updateOrderDto.OrderItemIds.SingleOrDefault(oi => oi == orderItem.Id);
+                var orderItemExists = updateOrderDto.OrderItemIds.Any(oi => oi == orderItem.Id);
 
-                if (orderItemExists == default)
+                if (orderItemExists)
                 {
                     continue;
                 }

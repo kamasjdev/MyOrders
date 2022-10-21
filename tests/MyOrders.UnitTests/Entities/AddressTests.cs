@@ -11,8 +11,9 @@ namespace MyOrders.UnitTests.Entities
         {
             var id = 5;
             var addressLocation = AddressLocation.From("Poland", "Zielona Gora", "Szafrana", 50);
+            var zipCode = "65-516";
 
-            var address = new Address(id, addressLocation);
+            var address = new Address(id, addressLocation, zipCode);
 
             address.ShouldNotBeNull();
             address.Id.Value.ShouldBe(id);

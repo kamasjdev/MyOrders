@@ -11,7 +11,7 @@ namespace MyOrders.UnitTests.Entities
         {
             var id = 20;
             var person = Person.From("Test", "Test2");
-            var address = Address.Create(AddressLocation.From("Poland", "Warszawa", "Dluga", 2));
+            var address = Address.Create(AddressLocation.From("Poland", "Warszawa", "Dluga", 2), "01-023");
             var contactData = ContactData.Create("email@email.com", PhoneNumber.From("+48", "1234567"));
 
             var customer = new Customer(id, person, address, contactData);

@@ -7,6 +7,10 @@ namespace MyOrders.Core.Entities
         public EntityId Id { get; }
         public Email Email { get; private set; }
         public PhoneNumber PhoneNumber { get; private set; } = null;
+        public Customer Customer { get; }
+
+        private ContactData()
+        { }
 
         public ContactData(EntityId id, Email email, PhoneNumber phoneNumber)
         {

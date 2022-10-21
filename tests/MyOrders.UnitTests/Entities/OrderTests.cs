@@ -15,7 +15,7 @@ namespace MyOrders.UnitTests.Entities
         {
             var orderNumber = "Order/123";
             var price = 100M;
-            var customer = Customer.Create(Person.From("Test", "Test"), Address.Create(AddressLocation.From("Poland", "City", "Street", 10)),
+            var customer = Customer.Create(Person.From("Test", "Test"), Address.Create(AddressLocation.From("Poland", "City", "Street", 10), "12-123"),
                 ContactData.Create(Email.From("email@email.com"), PhoneNumber.From("+48", "123456789")));
             var created = DateTime.UtcNow;
 
@@ -31,7 +31,7 @@ namespace MyOrders.UnitTests.Entities
         public void should_create_order_with_order_items()
         {
             var orderNumber = "Order/123";
-            var customer = Customer.Create(Person.From("Test", "Test"), Address.Create(AddressLocation.From("Poland", "City", "Street", 10)),
+            var customer = Customer.Create(Person.From("Test", "Test"), Address.Create(AddressLocation.From("Poland", "City", "Street", 10), "08-912"),
                 ContactData.Create(Email.From("email@email.com"), PhoneNumber.From("+48", "123456789")));
             var created = DateTime.UtcNow;
             var orderItems = new List<OrderItem> { OrderItem.Create(Product.Create("Product#1", ProductKind.Create("PKind"), 100M), customer, created),
@@ -78,7 +78,7 @@ namespace MyOrders.UnitTests.Entities
         public void given_valid_order_with_new_customer_should_change_customer()
         {
             var order = CreateDefaultOrder();
-            var customer = Customer.Create(Person.From("Person", "Person"), Address.Create(AddressLocation.From("USA", "CityA", "StreetB", 101)),
+            var customer = Customer.Create(Person.From("Person", "Person"), Address.Create(AddressLocation.From("USA", "CityA", "StreetB", 101), "12-634"),
                 ContactData.Create(Email.From("email2@email2.com"), PhoneNumber.From("+12", "987654321")));
             var modified = DateTime.UtcNow;
 
@@ -166,7 +166,7 @@ namespace MyOrders.UnitTests.Entities
         {
             var order = CreateDefaultOrder();
             var orderItem = new OrderItem(99999, Product.Create("product", ProductKind.Create("PK12"), 100M),
-                Customer.Create(Person.From("First", "Last"), Address.Create(AddressLocation.From("ABCD", "EFG", "HIJK", 1)),
+                Customer.Create(Person.From("First", "Last"), Address.Create(AddressLocation.From("ABCD", "EFG", "HIJK", 1), "90-123"),
                         ContactData.Create(Email.From("email@emial.com"), PhoneNumber.From("+48", "123456789"))), DateTime.UtcNow);
 
             var exception = Record.Exception(() => order.RemoveOrderItem(orderItem, DateTime.UtcNow));
@@ -179,7 +179,7 @@ namespace MyOrders.UnitTests.Entities
         public Order CreateDefaultOrder()
         {
             var orderNumber = "Order/123";
-            var customer = Customer.Create(Person.From("Test", "Test"), Address.Create(AddressLocation.From("Poland", "City", "Street", 10)),
+            var customer = Customer.Create(Person.From("Test", "Test"), Address.Create(AddressLocation.From("Poland", "City", "Street", 10), "12-123"),
                 ContactData.Create(Email.From("email@email.com"), PhoneNumber.From("+48", "123456789")));
             var created = DateTime.UtcNow;
             var orderItems = new List<OrderItem> { CreateDefaultOrderItem(), CreateDefaultOrderItem() };
@@ -189,7 +189,7 @@ namespace MyOrders.UnitTests.Entities
 
         public OrderItem CreateDefaultOrderItem(int? id = null)
         {
-            var customer = Customer.Create(Person.From("Test", "Test"), Address.Create(AddressLocation.From("Poland", "City", "Street", 10)),
+            var customer = Customer.Create(Person.From("Test", "Test"), Address.Create(AddressLocation.From("Poland", "City", "Street", 10), "62-124"),
                    ContactData.Create(Email.From("email@email.com"), PhoneNumber.From("+48", "123456789")));
             var created = DateTime.UtcNow;
             return new OrderItem(id ?? new Random().Next(1, 1000) , Product.Create("Product#1", ProductKind.Create("PKind"), 100M), customer, created);

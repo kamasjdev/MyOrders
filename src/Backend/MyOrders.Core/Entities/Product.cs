@@ -9,6 +9,11 @@ namespace MyOrders.Core.Entities
         public ProductKind ProductKind { get; private set; }
         public Price Price { get; private set; }
 
+        public IEnumerable<OrderItem> OrderItems { get; }
+
+        private Product()
+        { }
+
         public Product(EntityId id, ProductName productName, ProductKind productKind, Price price)
         {
             Id = id;

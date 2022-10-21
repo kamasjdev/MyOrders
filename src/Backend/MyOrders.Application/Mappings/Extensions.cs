@@ -8,7 +8,7 @@ namespace MyOrders.Application.Mappings
         public static AddressDto AsDto(this Address address)
         {
             return new AddressDto(address.Id, address.AddressLocation.StreetName, address.AddressLocation.CityName, address.AddressLocation.CountryName,
-                address.AddressLocation.BuildingNumber, address.AddressLocation.FlatNumber);
+                address.AddressLocation.BuildingNumber, address.ZipCode.Value, address.AddressLocation.FlatNumber);
         }
 
         public static ContactDataDto AsDto(this ContactData contactData)

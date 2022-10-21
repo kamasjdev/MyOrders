@@ -12,7 +12,7 @@ namespace MyOrders.UnitTests.Entities
         {
             var product = Product.Create("Product#1", ProductKind.Create("PK#1"), 100M);
             var customer = Customer.Create(Person.From("Test", "Test"), 
-                Address.Create(AddressLocation.From("Poland", "City", "Street", 10)), 
+                Address.Create(AddressLocation.From("Poland", "City", "Street", 10), "52-123"), 
                 ContactData.Create(Email.From("email@email.com"), PhoneNumber.From("+48", "123123123")));
             var created = DateTime.UtcNow;
 
@@ -30,7 +30,7 @@ namespace MyOrders.UnitTests.Entities
         {
             var product = Product.Create("Product#1", ProductKind.Create("PK#1"), 100M);
             var customer = Customer.Create(Person.From("Test", "Test"),
-                Address.Create(AddressLocation.From("Poland", "City", "Street", 10)),
+                Address.Create(AddressLocation.From("Poland", "City", "Street", 10), "25-124"),
                 ContactData.Create(Email.From("email@email.com"), PhoneNumber.From("+48", "123123123")));
             var created = DateTime.UtcNow;
             var order = Order.Create("Number", 0M, customer, created);
