@@ -1,4 +1,5 @@
 ﻿using MyOrders.Core.Entities;
+using MyOrders.Core.ValueObjects;
 
 namespace MyOrders.Core.Repositories
 {
@@ -9,5 +10,6 @@ namespace MyOrders.Core.Repositories
         Task<ProductKind> GetAsync(int id);
         Task DeleteAsync(ProductKind productKind);
         Task<IEnumerable<ProductKind>> GetAllAsync();
+        Task<bool> ExistsByProductKindNameAsync(ProductKindName productKindName);
     }
 }

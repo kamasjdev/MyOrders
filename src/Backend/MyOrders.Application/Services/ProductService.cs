@@ -21,6 +21,7 @@ namespace MyOrders.Application.Services
         public async Task<ProductDetailsDto> AddAsync(ProductDetailsDto productDto)
         {
             CheckProductKind(productDto.ProductKind);
+            await CheckProductName(productDto.ProductName);
             var productKind = await GetProductKindAsync(productDto.ProductKind.Id);
             var product = Product.Create(productDto.ProductName, productKind, productDto.Price);
             return (await _productRepository.AddAsync(product)).AsDetailsDto();
@@ -45,6 +46,7 @@ namespace MyOrders.Application.Services
         public async Task<ProductDetailsDto> UpdateAsync(ProductDetailsDto productDto)
         {
             CheckProductKind(productDto.ProductKind);
+            await CheckProductName(productDto.ProductName);
             var productKind = await GetProductKindAsync(productDto.ProductKind.Id);
             var product = await GetProductAsync(productDto.Id);
             product.ChangeProductName(productDto.ProductName);
@@ -84,6 +86,16 @@ namespace MyOrders.Application.Services
             }
 
             return product;
+        }
+
+        private async Task CheckProductName(string productName)
+        {
+            var exists = await _productRepository.ExistsByProductNameAsync(productName);
+
+            if (exists)
+            {
+                throw new BusinessException($"Product with ProductName: '{productName}' already exists");
+            }
         }
     }
 }

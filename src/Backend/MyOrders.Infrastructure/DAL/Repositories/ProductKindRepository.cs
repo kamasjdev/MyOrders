@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyOrders.Core.Entities;
 using MyOrders.Core.Repositories;
+using MyOrders.Core.ValueObjects;
 
 namespace MyOrders.Infrastructure.DAL.Repositories
 {
@@ -24,6 +25,11 @@ namespace MyOrders.Infrastructure.DAL.Repositories
         {
             _dbContext.ProductKinds.Remove(productKind);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public Task<bool> ExistsByProductKindNameAsync(ProductKindName productKindName)
+        {
+            return _dbContext.ProductKinds.AnyAsync(pk => pk.ProductKindName == productKindName);
         }
 
         public async Task<IEnumerable<ProductKind>> GetAllAsync()

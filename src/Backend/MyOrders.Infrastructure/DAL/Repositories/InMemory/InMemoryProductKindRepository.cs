@@ -1,5 +1,6 @@
 ﻿using MyOrders.Core.Entities;
 using MyOrders.Core.Repositories;
+using MyOrders.Core.ValueObjects;
 
 namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
 {
@@ -37,6 +38,11 @@ namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
         public Task<ProductKind> UpdateAsync(ProductKind productKind)
         {
             return Task.FromResult(_repository.Update(productKind));
+        }
+
+        public Task<bool> ExistsByProductKindNameAsync(ProductKindName productKindName)
+        {
+            return Task.FromResult(_repository.GetAll().Any(pk => pk.ProductKindName == productKindName));
         }
     }
 }

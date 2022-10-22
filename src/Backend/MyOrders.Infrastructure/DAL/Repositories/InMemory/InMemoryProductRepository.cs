@@ -1,5 +1,6 @@
 ﻿using MyOrders.Core.Entities;
 using MyOrders.Core.Repositories;
+using MyOrders.Core.ValueObjects;
 
 namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
 {
@@ -21,6 +22,11 @@ namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
         {
             _repository.Delete(product);
             return Task.CompletedTask;
+        }
+
+        public Task<bool> ExistsByProductNameAsync(ProductName productName)
+        {
+            return Task.FromResult(_repository.GetAll().Any(p => p.ProductName == productName));
         }
 
         public async Task<IEnumerable<Product>> GetAllAsync()
