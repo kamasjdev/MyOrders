@@ -16,7 +16,7 @@ namespace MyOrders.UnitTests.Entities
             var contactData = new ContactData(id, email, phoneNumber);
 
             contactData.ShouldNotBeNull();
-            contactData.Id.Value.ShouldBe(id);
+            contactData.Id.ShouldBe(id);
             contactData.Email.ShouldBe(email);
             contactData.PhoneNumber.ShouldBe(phoneNumber);
         }

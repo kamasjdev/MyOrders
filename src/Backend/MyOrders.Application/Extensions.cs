@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using MyOrders.Application.Abstractions;
 using MyOrders.Application.Services;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("MyOrders.UnitTests")]
 namespace MyOrders.Application
 {
     public static class Extensions

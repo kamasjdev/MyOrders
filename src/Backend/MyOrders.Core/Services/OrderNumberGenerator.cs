@@ -20,6 +20,11 @@ namespace MyOrders.Core.Services
 
             if (lastOrderNumber is not null)
             {
+                if (lastOrderNumber.Value.Length < 18)
+                {
+                    throw new DomainException($"Given invalid OrderNumber: '{lastOrderNumber}'");
+                }
+
                 var stringNumber = lastOrderNumber.Value[17..];//18
                 var parsed = long.TryParse(stringNumber, out number);
 

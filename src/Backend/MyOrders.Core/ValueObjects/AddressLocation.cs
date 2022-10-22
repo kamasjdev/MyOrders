@@ -32,12 +32,7 @@ namespace MyOrders.Core.ValueObjects
             }
         }
 
-        public static AddressLocation From(string countryName, string cityName, string streetName, int buildingNumber)
-        {
-            return new AddressLocation(countryName, cityName, streetName, buildingNumber);
-        }
-
-        public static AddressLocation From(string countryName, string cityName, string streetName, int buildingNumber, int flatNumber)
+        public static AddressLocation From(string countryName, string cityName, string streetName, int buildingNumber, int? flatNumber = null)
         {
             return new AddressLocation(countryName, cityName, streetName, buildingNumber, flatNumber);
         }

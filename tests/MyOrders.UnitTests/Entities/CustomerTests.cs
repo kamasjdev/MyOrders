@@ -17,7 +17,7 @@ namespace MyOrders.UnitTests.Entities
             var customer = new Customer(id, person, address, contactData);
 
             customer.ShouldNotBeNull();
-            customer.Id.Value.ShouldBe(id);
+            customer.Id.ShouldBe(id);
             customer.Person.ShouldBe(person);
             customer.Address.AddressLocation.ShouldBe(address.AddressLocation);
             customer.ContactData.Email.ShouldBe(contactData.Email);

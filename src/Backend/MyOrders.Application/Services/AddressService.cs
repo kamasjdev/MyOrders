@@ -19,18 +19,8 @@ namespace MyOrders.Application.Services
 
         public async Task<AddressDto> AddAsync(AddressDto addressDto)
         {
-            Address address;
-            if (addressDto.FlatNumber.HasValue)
-            {
-                address = Address.Create(AddressLocation.From(addressDto.CountryName, addressDto.CityName, addressDto.StreetName,
-                            addressDto.BuildingNumber, addressDto.FlatNumber.Value), addressDto.ZipCode);
-            }
-            else
-            {
-                address = Address.Create(AddressLocation.From(addressDto.CountryName, addressDto.CityName, addressDto.StreetName,
-                                addressDto.BuildingNumber), addressDto.ZipCode);
-            }
-
+            var address = Address.Create(AddressLocation.From(addressDto.CountryName, addressDto.CityName, addressDto.StreetName,
+                                addressDto.BuildingNumber, addressDto.FlatNumber), addressDto.ZipCode);
             return (await _addressRepository.AddAsync(address)).AsDto();
         }
 
@@ -54,19 +44,9 @@ namespace MyOrders.Application.Services
         public async Task<AddressDto> UpdateAsync(AddressDto addressDto)
         {
             var address = await GetAddressAsync(addressDto.Id);
-
-            if (addressDto.FlatNumber.HasValue)
-            {
-                address.ChangeAddressLocation(AddressLocation.From(addressDto.CountryName, addressDto.CityName, addressDto.StreetName, addressDto.BuildingNumber, addressDto.FlatNumber.Value));
-                address.ChangeZipCode(addressDto.ZipCode);
-                return (await _addressRepository.UpdateAsync(address)).AsDto();
-            }
-            else
-            {
-                address.ChangeAddressLocation(AddressLocation.From(addressDto.CountryName, addressDto.CityName, addressDto.StreetName, addressDto.BuildingNumber));
-                address.ChangeZipCode(addressDto.ZipCode);
-                return (await _addressRepository.UpdateAsync(address)).AsDto();
-            }
+            address.ChangeAddressLocation(AddressLocation.From(addressDto.CountryName, addressDto.CityName, addressDto.StreetName, addressDto.BuildingNumber, addressDto.FlatNumber));
+            address.ChangeZipCode(addressDto.ZipCode);
+            return (await _addressRepository.UpdateAsync(address)).AsDto();
         }
 
         private async Task<Address> GetAddressAsync(int id)

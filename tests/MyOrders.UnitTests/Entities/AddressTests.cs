@@ -16,7 +16,7 @@ namespace MyOrders.UnitTests.Entities
             var address = new Address(id, addressLocation, zipCode);
 
             address.ShouldNotBeNull();
-            address.Id.Value.ShouldBe(id);
+            address.Id.ShouldBe(id);
             address.AddressLocation.ShouldBe(addressLocation);
         }
     }

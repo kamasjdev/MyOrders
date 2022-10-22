@@ -12,11 +12,12 @@ namespace MyOrders.Core.Entities
         private ContactData()
         { }
 
-        public ContactData(int id, Email email, PhoneNumber phoneNumber)
+        public ContactData(int id, Email email, PhoneNumber phoneNumber, Customer customer = null)
         {
             Id = id;
             Email = email;
             PhoneNumber = phoneNumber;
+            Customer = customer;
         }
 
         public static ContactData Create(Email email, PhoneNumber phoneNumber)

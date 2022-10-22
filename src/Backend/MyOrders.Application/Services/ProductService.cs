@@ -52,7 +52,6 @@ namespace MyOrders.Application.Services
             product.ChangeProductName(productDto.ProductName);
             product.ChangeProductKind(productKind);
             product.ChangePrice(productDto.Price);
-
             return (await _productRepository.UpdateAsync(product)).AsDetailsDto();
         }
 

@@ -12,11 +12,12 @@ namespace MyOrders.Core.Entities
         private Address()
         { }
 
-        public Address(int id, AddressLocation addressLocation, ZipCode zipCode)
+        public Address(int id, AddressLocation addressLocation, ZipCode zipCode, Customer customer = null)
         {
             Id = id;
             AddressLocation = addressLocation;
             ZipCode = zipCode;
+            Customer = customer;
         }
 
         public static Address Create(AddressLocation addressLocation, ZipCode zipCode)

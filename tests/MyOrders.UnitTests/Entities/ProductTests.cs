@@ -16,7 +16,7 @@ namespace MyOrders.UnitTests.Entities
             var product = new Product(id, productName, productKind, price);
 
             product.ShouldNotBeNull();
-            product.Id.Value.ShouldBe(id);
+            product.Id.ShouldBe(id);
             product.ProductName.Value.ShouldBe(productName);
             product.Price.Value.ShouldBe(price);
             product.ProductKind.ShouldNotBeNull();
