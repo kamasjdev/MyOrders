@@ -4,6 +4,7 @@ using MyOrders.Application.Exceptions;
 using MyOrders.Application.Mappings;
 using MyOrders.Core.Entities;
 using MyOrders.Core.Repositories;
+using MyOrders.Core.Services;
 
 namespace MyOrders.Application.Services
 {
@@ -13,25 +14,30 @@ namespace MyOrders.Application.Services
         private readonly ICustomerRepository _customerRepository;
         private readonly IClock _clock;
         private readonly IOrderItemRepository _orderItemRepository;
+        private readonly IOrderNumberGenerator _orderNumberGenerator;
 
         public OrderService(IOrderRepository orderRepository, ICustomerRepository customerRepository, IClock clock,
-            IOrderItemRepository orderItemRepository)
+            IOrderItemRepository orderItemRepository, IOrderNumberGenerator orderNumberGenerator)
         {
             _orderRepository = orderRepository;
             _customerRepository = customerRepository;
             _clock = clock;
             _orderItemRepository = orderItemRepository;
+            _orderNumberGenerator = orderNumberGenerator;
         }
 
         public async Task<OrderDetailsDto> AddAsync(AddOrderDto addOrderDto)
         {
             var customer = await GetCustomerAsync(addOrderDto.CustomerId);
-            var order = Order.Create(addOrderDto.OrderNumber, decimal.Zero, customer, _clock.CurrentDateTime());
+            var currentDateTime = _clock.CurrentDateTime();
+            var lastOrderNumber = await _orderRepository.GetLastOrderNumberOnDateAsync(currentDateTime);
+            var orderNumber = _orderNumberGenerator.Generate(lastOrderNumber);
+            var order = Order.Create(orderNumber, decimal.Zero, customer, currentDateTime);
 
             foreach(var orderItemId in addOrderDto.OrderItemIds)
             {
                 var orderItem = await GetOrderItemAsync(orderItemId);
-                order.AddOrderItem(orderItem, _clock.CurrentDateTime());
+                order.AddOrderItem(orderItem, currentDateTime);
             }
 
             return (await _orderRepository.AddAsync(order)).AsDetailsDto();
@@ -57,8 +63,8 @@ namespace MyOrders.Application.Services
         {
             var order = await GetOrderAsync(updateOrderDto.Id);
             var customer = await GetCustomerAsync(updateOrderDto.CustomerId);
-            order.ChangeCustomer(customer, _clock.CurrentDateTime());
-            order.ChangeOrderNumber(updateOrderDto.OrderNumber, _clock.CurrentDateTime());
+            var currentDateTime = _clock.CurrentDateTime();
+            order.ChangeCustomer(customer, currentDateTime);
 
             foreach (var orderItemId in updateOrderDto.OrderItemIds)
             {
@@ -70,7 +76,7 @@ namespace MyOrders.Application.Services
                 }
 
                 var orderItem = await GetOrderItemAsync(orderItemId);
-                order.AddOrderItem(orderItem, _clock.CurrentDateTime());
+                order.AddOrderItem(orderItem, currentDateTime);
             }
 
             var orderItems = new List<OrderItem>(order.OrderItems);
@@ -83,7 +89,7 @@ namespace MyOrders.Application.Services
                     continue;
                 }
 
-                order.RemoveOrderItem(orderItem, _clock.CurrentDateTime());
+                order.RemoveOrderItem(orderItem, currentDateTime);
             }
 
             return (await _orderRepository.UpdateAsync(order)).AsDetailsDto();

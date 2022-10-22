@@ -1,5 +1,6 @@
 ﻿using MyOrders.Core.Entities;
 using MyOrders.Core.Repositories;
+using MyOrders.Core.ValueObjects;
 
 namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
 {
@@ -32,6 +33,16 @@ namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
         {
             await Task.CompletedTask;
             return _repository.GetAll().Where(o => o.Customer.Id == customerId);
+        }
+
+        public async Task<OrderNumber> GetLastOrderNumberOnDateAsync(DateTime date)
+        {
+            await Task.CompletedTask;
+            return _repository.GetAll()
+                .Where(o => o.Created.Date == date.Date)
+                .OrderByDescending(o => o.Created)
+                .Select(o => o.OrderNumber)
+                .FirstOrDefault();
         }
 
         public Task<Order> UpdateAsync(Order order)

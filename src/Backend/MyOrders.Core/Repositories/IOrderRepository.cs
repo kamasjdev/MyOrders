@@ -1,4 +1,5 @@
 ﻿using MyOrders.Core.Entities;
+using MyOrders.Core.ValueObjects;
 
 namespace MyOrders.Core.Repositories
 {
@@ -9,5 +10,6 @@ namespace MyOrders.Core.Repositories
         Task DeleteAsync(Order order);
         Task<Order> GetAsync(int id);
         Task<IEnumerable<Order>> GetByCustomerIdAsync(int customerId);
+        Task<OrderNumber> GetLastOrderNumberOnDateAsync(DateTime date);
     }
 }

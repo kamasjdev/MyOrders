@@ -4,6 +4,7 @@ using MyOrders.Application.Exceptions;
 using MyOrders.Application.Mappings;
 using MyOrders.Core.Entities;
 using MyOrders.Core.Repositories;
+using MyOrders.Core.Services;
 
 namespace MyOrders.Application.Services
 {

@@ -181,7 +181,6 @@ POST {{url}}/orders
 Content-Type: application/json
 
 {
-    "orderNumber": "ORDER/123",
     "customerId": {{customerId}},
     "productId": {{productId}},
     "orderItemIds": [
@@ -194,7 +193,6 @@ PUT {{url}}/orders/{{orderId}}
 Content-Type: application/json
 
 {
-    "orderNumber": "ORDER/123",
     "customerId": {{customerId}},
     "productId": {{productId}},
     "orderItemIds": [

@@ -37,6 +37,12 @@ namespace MyOrders.Application.Services
         public async Task DeleteAsync(int id)
         {
             var address = await GetAddressAsync(id);
+            
+            if (address.Customer is not null)
+            {
+                throw new BusinessException($"Cannot delete Address with id: '{address.Id}', because is used by Customer with id: '{address.Customer.Id}'");
+            }
+
             await _addressRepository.DeleteAsync(address);
         }
 

@@ -1,4 +1,4 @@
-﻿namespace MyOrders.Application.Abstractions
+﻿namespace MyOrders.Core.Services
 {
     public interface IClock
     {

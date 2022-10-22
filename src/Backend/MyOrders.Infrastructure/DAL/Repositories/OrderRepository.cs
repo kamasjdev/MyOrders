@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyOrders.Core.Entities;
 using MyOrders.Core.Repositories;
+using MyOrders.Core.ValueObjects;
 
 namespace MyOrders.Infrastructure.DAL.Repositories
 {
@@ -24,6 +25,15 @@ namespace MyOrders.Infrastructure.DAL.Repositories
         {
             _dbContext.Orders.Remove(order);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public Task<OrderNumber> GetLastOrderNumberOnDateAsync(DateTime date)
+        {
+            return _dbContext.Orders
+                .Where(o => o.Created.Date == date.Date)
+                .OrderByDescending(o => o.Created)
+                .Select(o => o.OrderNumber)
+                .FirstOrDefaultAsync();
         }
 
         public Task<Order> GetAsync(int id)

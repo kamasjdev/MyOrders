@@ -1,4 +1,4 @@
 ﻿namespace MyOrders.Application.DTO
 {
-    public record AddOrderDto(string OrderNumber, int ProductId, int CustomerId, ISet<int> OrderItemIds);
+    public record AddOrderDto(int ProductId, int CustomerId, ISet<int> OrderItemIds);
 }

@@ -26,6 +26,12 @@ namespace MyOrders.Application.Services
         public async Task DeleteAsync(int id)
         {
             var contactData = await GetContactDataAsync(id);
+
+            if (contactData.Customer is not null)
+            {
+                throw new BusinessException($"Cannot delete ContactData with id: '{contactData.Id}', because is used by Customer with id: '{contactData.Customer.Id}'");
+            }
+
             await _contactDataRepository.DeleteAsync(contactData);
         }
 

@@ -9,8 +9,4 @@
     <ProjectReference Include="..\MyOrders.Core\MyOrders.Core.csproj" />
   </ItemGroup>
 	
-  <ItemGroup>
-	<FrameworkReference Include="Microsoft.AspNetCore.App" />
-  </ItemGroup>
-
 </Project>

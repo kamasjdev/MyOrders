@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MyOrders.Application.Abstractions;
+using MyOrders.Core.Services;
 
 namespace MyOrders.Infrastructure.Time
 {

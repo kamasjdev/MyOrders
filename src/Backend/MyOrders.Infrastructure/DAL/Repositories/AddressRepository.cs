@@ -28,7 +28,9 @@ namespace MyOrders.Infrastructure.DAL.Repositories
 
         public Task<Address> GetAsync(int id)
         {
-            return _dbContext.Addresses.SingleOrDefaultAsync(a => a.Id == id);
+            return _dbContext.Addresses
+                .Include(c => c.Customer)
+                .SingleOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task<Address> UpdateAsync(Address address)
