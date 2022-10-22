@@ -8,7 +8,18 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: '[name].js' // name of entry as an output generated js
+        filename: '[name].[contenthash].js', // name of entry as an output generated js
+        clean: true
+    },
+    devServer: {
+        static: {
+            directory: path.resolve(__dirname, 'dist')
+        },
+        port: 3000,
+        open: true, // open browser automatically if true
+        hot: true, // hot reloading
+        compress: true, // gzip compression
+        historyApiFallback: false // serve on every url index.html if true
     },
     module: {
         rules: [
