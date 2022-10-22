@@ -18,12 +18,12 @@ namespace MyOrders.Application.Services
             _productKindRepository = productKindRepository;
         }
 
-        public async Task<ProductDto> AddAsync(ProductDto productDto)
+        public async Task<ProductDetailsDto> AddAsync(ProductDetailsDto productDto)
         {
             CheckProductKind(productDto.ProductKind);
             var productKind = await GetProductKindAsync(productDto.ProductKind.Id);
             var product = Product.Create(productDto.ProductName, productKind, productDto.Price);
-            return (await _productRepository.AddAsync(product)).AsDto();
+            return (await _productRepository.AddAsync(product)).AsDetailsDto();
         }
 
         public async Task DeleteAsync(int id)
@@ -37,12 +37,12 @@ namespace MyOrders.Application.Services
             return (await _productRepository.GetAllAsync()).Select(p => p.AsDto());
         }
 
-        public async Task<ProductDto> GetAsync(int id)
+        public async Task<ProductDetailsDto> GetAsync(int id)
         {
-            return (await _productRepository.GetAsync(id))?.AsDto();
+            return (await _productRepository.GetAsync(id))?.AsDetailsDto();
         }
 
-        public async Task<ProductDto> UpdateAsync(ProductDto productDto)
+        public async Task<ProductDetailsDto> UpdateAsync(ProductDetailsDto productDto)
         {
             CheckProductKind(productDto.ProductKind);
             var productKind = await GetProductKindAsync(productDto.ProductKind.Id);
@@ -51,7 +51,7 @@ namespace MyOrders.Application.Services
             product.ChangeProductKind(productKind);
             product.ChangePrice(productDto.Price);
 
-            return (await _productRepository.UpdateAsync(product)).AsDto();
+            return (await _productRepository.UpdateAsync(product)).AsDetailsDto();
         }
 
         private void CheckProductKind(ProductKindDto productKindDto)

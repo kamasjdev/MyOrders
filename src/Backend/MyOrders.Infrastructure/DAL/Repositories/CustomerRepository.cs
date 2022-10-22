@@ -33,7 +33,10 @@ namespace MyOrders.Infrastructure.DAL.Repositories
 
         public Task<Customer> GetAsync(int id)
         {
-            return _dbContext.Customers.SingleOrDefaultAsync(c => c.Id == id);
+            return _dbContext.Customers
+                .Include(a => a.Address)
+                .Include(cd => cd.ContactData)
+                .SingleOrDefaultAsync(c => c.Id == id);
         }
 
         public async Task<Customer> UpdateAsync(Customer customer)

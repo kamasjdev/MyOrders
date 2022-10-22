@@ -33,7 +33,7 @@ namespace MyOrders.Infrastructure.DAL.Repositories
 
         public Task<Product> GetAsync(int id)
         {
-            return _dbContext.Products.SingleOrDefaultAsync(p => p.Id == id);
+            return _dbContext.Products.Include(pk => pk.ProductKind).SingleOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<Product> UpdateAsync(Product product)

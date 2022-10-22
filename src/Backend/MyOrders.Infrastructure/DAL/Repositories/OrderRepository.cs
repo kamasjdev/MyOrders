@@ -28,12 +28,15 @@ namespace MyOrders.Infrastructure.DAL.Repositories
 
         public Task<Order> GetAsync(int id)
         {
-            return _dbContext.Orders.SingleOrDefaultAsync(o => o.Id == id);
+            return _dbContext.Orders
+                .Include(c => c.Customer)
+                .Include(oi => oi.OrderItems).ThenInclude(p => p.Product)
+                .SingleOrDefaultAsync(o => o.Id == id);
         }
 
         public async Task<IEnumerable<Order>> GetByCustomerIdAsync(int customerId)
         {
-            return await _dbContext.Orders.Include(c => c.Customer).Where(o => o.Customer.Id == customerId).ToListAsync();
+            return await _dbContext.Orders.Where(o => o.Customer.Id == customerId).ToListAsync();
         }
 
         public async Task<Order> UpdateAsync(Order order)

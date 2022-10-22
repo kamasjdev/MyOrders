@@ -6,8 +6,8 @@ namespace MyOrders.Application.Abstractions
     {
         Task<CustomerDetailsDto> GetAsync(int id);
         Task<IEnumerable<CustomerDto>> GetAllAsync();
-        Task<CustomerDto> AddAsync(AddCustomerDto addCustomerDto);
-        Task<CustomerDto> UpdateAsync(UpdateCustomerDto updateCustomerDto);
+        Task<CustomerDetailsDto> AddAsync(AddCustomerDto addCustomerDto);
+        Task<CustomerDetailsDto> UpdateAsync(UpdateCustomerDto updateCustomerDto);
         Task DeleteAsync(int id);
     }
 }

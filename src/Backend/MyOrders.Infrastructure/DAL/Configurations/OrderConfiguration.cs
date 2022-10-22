@@ -11,7 +11,6 @@ namespace MyOrders.Infrastructure.DAL.Configurations
         {
             builder.HasKey(o => o.Id);
             builder.Property(o => o.Id)
-                .HasConversion(o => o.Value, id => new EntityId(id))
                 .UseMySqlIdentityColumn();
 
             builder.Property(o => o.OrderNumber)

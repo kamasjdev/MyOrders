@@ -4,7 +4,7 @@ namespace MyOrders.Core.Entities
 {
     public class Address : IBaseEntity
     {
-        public EntityId Id { get; }
+        public int Id { get; }
         public AddressLocation AddressLocation { get; private set; }
         public ZipCode ZipCode { get; private set; }
         public Customer Customer { get; }
@@ -12,7 +12,7 @@ namespace MyOrders.Core.Entities
         private Address()
         { }
 
-        public Address(EntityId id, AddressLocation addressLocation, ZipCode zipCode)
+        public Address(int id, AddressLocation addressLocation, ZipCode zipCode)
         {
             Id = id;
             AddressLocation = addressLocation;

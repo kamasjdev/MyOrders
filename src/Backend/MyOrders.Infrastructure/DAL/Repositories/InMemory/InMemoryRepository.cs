@@ -46,7 +46,7 @@ namespace MyOrders.Infrastructure.DAL.Repositories.InMemory
         private static void SetId(T entity, int id)
         {
             var field = typeof(T).GetField($"<{nameof(IBaseEntity.Id)}>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic);
-            field.SetValue(entity, new EntityId(id));
+            field.SetValue(entity, id);
         }
     }
 }

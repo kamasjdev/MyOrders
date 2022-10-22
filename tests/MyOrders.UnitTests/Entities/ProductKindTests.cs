@@ -13,7 +13,7 @@ namespace MyOrders.UnitTests.Entities
             var productKind = new ProductKind(id, name);
 
             productKind.ShouldNotBeNull();
-            productKind.Id.Value.ShouldBe(id);
+            productKind.Id.ShouldBe(id);
             productKind.ProductKindName.Value.ShouldBe(name);
         }
     }

@@ -4,6 +4,6 @@ namespace MyOrders.Core.Entities
 {
     public interface IBaseEntity
     {
-        EntityId Id { get; }
+        int Id { get; }
     }
 }

@@ -28,14 +28,20 @@ namespace MyOrders.Infrastructure.DAL.Repositories
 
         public async Task<IEnumerable<OrderItem>> GetAllNotOrderedByCustomerId(int customerId)
         {
-            return await _dbContext.OrderItems.Include(o => o.Order)
-                                .Where(oi => oi.Order == null)
+            return await _dbContext.OrderItems
+                                .Include(c => c.Customer)
+                                .Include(p => p.Product)
+                                .Include(o => o.Order)
+                                .Where(oi => oi.Order == null && oi.Customer.Id == customerId)
                                 .ToListAsync();
         }
 
         public Task<OrderItem> GetAsync(int id)
         {
-            return _dbContext.OrderItems.SingleOrDefaultAsync(oi => oi.Id == id);
+            return _dbContext.OrderItems
+                .Include(p => p.Product)
+                .Include(c => c.Customer)
+                .SingleOrDefaultAsync(oi => oi.Id == id);
         }
     }
 }

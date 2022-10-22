@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MyOrders.Core.Entities;
-using MyOrders.Core.ValueObjects;
 
 namespace MyOrders.Infrastructure.DAL.Configurations
 {
@@ -11,7 +10,6 @@ namespace MyOrders.Infrastructure.DAL.Configurations
         {
             builder.HasKey(c => c.Id);
             builder.Property(c => c.Id)
-                .HasConversion(c => c.Value, id => new EntityId(id))
                 .UseMySqlIdentityColumn();
 
             builder.OwnsOne(c => c.Person, navigation =>

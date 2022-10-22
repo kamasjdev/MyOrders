@@ -4,16 +4,16 @@ namespace MyOrders.Core.Entities
 {
     public class OrderItem : IBaseEntity
     {
-        public EntityId Id { get; }
-        public Product Product { get; }
-        public Customer Customer { get; }
+        public int Id { get; }
+        public Product Product { get; private set; }
+        public Customer Customer { get; private set; }
         public Order Order { get; private set; } = null;
         public DateTime Created { get; }
 
         private OrderItem()
         { }
 
-        public OrderItem(EntityId id, Product product, Customer customer, DateTime created, Order order = null)
+        public OrderItem(int id, Product product, Customer customer, DateTime created, Order order = null)
         {
             Id = id;
             Product = product;

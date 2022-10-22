@@ -21,7 +21,7 @@ namespace MyOrders.Application.Services
             _contactDataRepository = contactDataRepository;
         }
 
-        public async Task<CustomerDto> AddAsync(AddCustomerDto addCustomerDto)
+        public async Task<CustomerDetailsDto> AddAsync(AddCustomerDto addCustomerDto)
         {
             var address = await GetAddressAsync(addCustomerDto.AddressId);
             var contactData = await GetContactDataAsync(addCustomerDto.ContactDataId);
@@ -45,7 +45,7 @@ namespace MyOrders.Application.Services
             return (await _customerRepository.GetAsync(id))?.AsDetailsDto();
         }
 
-        public async Task<CustomerDto> UpdateAsync(UpdateCustomerDto updateCustomerDto)
+        public async Task<CustomerDetailsDto> UpdateAsync(UpdateCustomerDto updateCustomerDto)
         {
             var customer = await GetCustomerAsync(updateCustomerDto.Id);
             var address = await GetAddressAsync(updateCustomerDto.AddressId);
@@ -53,7 +53,7 @@ namespace MyOrders.Application.Services
             customer.ChangePerson(Person.From(updateCustomerDto.FirstName, updateCustomerDto.LastName));
             customer.ChangeAddress(address);
             customer.ChangeContactData(contactData);
-            return (await _customerRepository.UpdateAsync(customer))?.AsDto();
+            return (await _customerRepository.UpdateAsync(customer))?.AsDetailsDto();
         }
 
         private async Task<Address> GetAddressAsync(int id)

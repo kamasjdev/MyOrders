@@ -5,7 +5,7 @@ namespace MyOrders.Core.Entities
 {
     public class Order : IBaseEntity
     {
-        public EntityId Id { get; }
+        public int Id { get; }
         public OrderNumber OrderNumber { get; private set; }
         public Price Price { get; private set; }
         public Customer Customer { get; private set; }
@@ -18,7 +18,7 @@ namespace MyOrders.Core.Entities
         private Order()
         { }
 
-        public Order(EntityId id, OrderNumber orderNumber, Price price, Customer customer, DateTime created, DateTime? modified = null, IEnumerable<OrderItem> orderItems = null)
+        public Order(int id, OrderNumber orderNumber, Price price, Customer customer, DateTime created, DateTime? modified = null, IEnumerable<OrderItem> orderItems = null)
         {
             Id = id;
             OrderNumber = orderNumber;

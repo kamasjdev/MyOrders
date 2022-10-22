@@ -4,7 +4,7 @@ namespace MyOrders.Core.Entities
 {
     public class ContactData : IBaseEntity
     {
-        public EntityId Id { get; }
+        public int Id { get; }
         public Email Email { get; private set; }
         public PhoneNumber PhoneNumber { get; private set; } = null;
         public Customer Customer { get; }
@@ -12,7 +12,7 @@ namespace MyOrders.Core.Entities
         private ContactData()
         { }
 
-        public ContactData(EntityId id, Email email, PhoneNumber phoneNumber)
+        public ContactData(int id, Email email, PhoneNumber phoneNumber)
         {
             Id = id;
             Email = email;

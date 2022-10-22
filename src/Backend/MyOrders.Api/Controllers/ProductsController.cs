@@ -20,20 +20,20 @@ namespace MyOrders.Api.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<ProductDto>> Get(int id)
+        public async Task<ActionResult<ProductDetailsDto>> Get(int id)
         {
             return OkOrNotFound(await _productService.GetAsync(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add(ProductDto productDto)
+        public async Task<ActionResult> Add(ProductDetailsDto productDto)
         {
             var dto = await _productService.AddAsync(productDto);
             return CreatedAtAction(nameof(Get), new { id = dto.Id }, dto);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ProductDto> Update(int id, ProductDto productDto)
+        public async Task<ProductDetailsDto> Update(int id, ProductDetailsDto productDto)
         {
             return await _productService.UpdateAsync(productDto with { Id = id });
         }

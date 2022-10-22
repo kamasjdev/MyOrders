@@ -43,7 +43,12 @@ namespace MyOrders.Application.Mappings
 
         public static ProductDto AsDto(this Product product)
         {
-            return new ProductDto(product.Id, product.ProductName.Value, product.ProductKind.AsDto(), product.Price);
+            return new ProductDto(product.Id, product.ProductName.Value, product.Price);
+        }
+        
+        public static ProductDetailsDto AsDetailsDto(this Product product)
+        {
+            return new ProductDetailsDto(product.Id, product.ProductName.Value, product.ProductKind.AsDto(), product.Price);
         }
 
         public static ProductKindDto AsDto(this ProductKind productKind)

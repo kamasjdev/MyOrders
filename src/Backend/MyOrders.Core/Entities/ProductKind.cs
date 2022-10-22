@@ -4,7 +4,7 @@ namespace MyOrders.Core.Entities
 {
     public class ProductKind : IBaseEntity
     {
-        public EntityId Id { get; }
+        public int Id { get; }
         public ProductKindName ProductKindName { get; private set; }
 
         public IEnumerable<Product> Products { get; }
@@ -12,7 +12,7 @@ namespace MyOrders.Core.Entities
         private ProductKind()
         { }
 
-        public ProductKind(EntityId id, ProductKindName productKindName)
+        public ProductKind(int id, ProductKindName productKindName)
         {
             Id = id;
             ProductKindName = productKindName;
