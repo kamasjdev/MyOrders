@@ -1,6 +1,12 @@
 import './styles/main.scss'
 
 console.log('test');
+console.log(history);
+
+const navigateTo = (url) => {
+    history.pushState(null, null, url);
+    router();
+}
 
 const router = async () => {
     const routes = [
@@ -28,6 +34,15 @@ const router = async () => {
     console.log(match.route.view());
 };
 
-document.addEventListener("DOMContentLoaded", () => {
+window.addEventListener('popstate', router); // event is fired when the active history entry changes
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.addEventListener('click', e => {
+        if (e.target.matches("[data-link]")) { // every element with attribute data-link will be matched
+            e.preventDefault();
+            navigateTo(e.target.href);
+        }
+    })
+
     router();
 });
