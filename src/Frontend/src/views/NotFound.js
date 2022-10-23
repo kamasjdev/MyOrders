@@ -2,8 +2,8 @@ import AbstractView from "./AbstractView";
 import './NotFoundStyles.scss'
 
 export default class extends AbstractView {
-    constructor() {
-        super();
+    constructor(params) {
+        super(params);
         this.setTitle('Not Found');
     }
 
