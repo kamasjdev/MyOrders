@@ -7,23 +7,11 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
-    <div class="container">
-        <h3>Generated using template.html</h3>
-        <h3>
-          <a href="/" data-link>
-            Home
-          </a>
-        </h3>
-        <h3>
-          <a href="/customers" data-link>
-            Customers
-          </a>
-        </h3>
-        <h3>
-          <a href="/products" data-link>
-            Products
-          </a>
-        </h3>
-    </div>
+    <nav class="nav">
+      <a href="/" class="nav__link" data-link>Home</a>
+      <a href="/customers" class="nav__link" data-link>Customers</a>
+      <a href="/products" class="nav__link" data-link>Products</a>
+  </nav>
+    <div id="app"></div>
   </body>
 </html>

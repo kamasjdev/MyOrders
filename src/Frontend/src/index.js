@@ -1,7 +1,7 @@
 import './styles/main.scss'
-
-console.log('test');
-console.log(history);
+import Customers from './views/Customers';
+import Home from './views/Home';
+import Products from './views/Products';
 
 const navigateTo = (url) => {
     history.pushState(null, null, url);
@@ -10,9 +10,9 @@ const navigateTo = (url) => {
 
 const router = async () => {
     const routes = [
-        { path: '/', view: () => console.log('Viewing Home Page') },
-        { path: '/customers', view: () => console.log('Viewing Customers Page') },
-        { path: '/products', view: () => console.log('Viewing Products Page') },
+        { path: '/', view: Home },
+        { path: '/customers', view: Customers },
+        { path: '/products', view: Products },
     ];
 
     const potentialMatches = routes.map(route => {
@@ -31,7 +31,10 @@ const router = async () => {
         };
     }
 
-    console.log(match.route.view());
+    const view = new match.route.view();
+    const html = await view.getHtml();
+    console.log(html);
+    document.querySelector('#app').innerHTML = html;
 };
 
 window.addEventListener('popstate', router); // event is fired when the active history entry changes

@@ -3,11 +3,11 @@ describe('render html', () => {
     })
 
     it('should render html', () => {
-        const h3 = document.querySelector('h3');
+        const app = document.querySelector('div#app');
 
         expect(document).not.toBeNull();
         expect(document.body.innerHTML.length).toBeGreaterThan(0);
-        expect(h3).not.toBeNull();
-        expect(h3.innerHTML).toBe('Generated using template.html');
+        expect(document.body.innerHTML).toContain('Home');
+        expect(app).not.toBeNull();
     })
 })
