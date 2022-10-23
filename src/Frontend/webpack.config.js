@@ -28,7 +28,7 @@ module.exports = {
         rules: [
             {
                 // any file with extension scss
-                test: /\.scss$/,
+                test: /\.(sass|scss|css)$/,
                 use: [
                     'style-loader', 
                     'css-loader',

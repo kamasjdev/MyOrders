@@ -4,6 +4,8 @@ import Home from './views/Home';
 import NotFound from './views/NotFound';
 import Products from './views/Products';
 import ProductView from './views/ProductView';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap";
 
 const pathToRegex = (path) => new RegExp('^' + path.replace(/\//g, "\\/").replace(/:\w+/g, '(.+)') + "$");
 

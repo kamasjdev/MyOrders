@@ -9,7 +9,7 @@ export default class extends AbstractView {
 
     async getHtml() {
         return `
-            <div class="container">
+            <div class="containerBox">
                 <div class="info-404">
                     404
                 </div>

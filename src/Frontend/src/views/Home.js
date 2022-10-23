@@ -8,7 +8,7 @@ export default class extends AbstractView {
 
     async getHtml() {
         return `
-            <div class="container">
+            <div class="containerBox">
                 <h1>Welcome to the MyOrders App</h1>
                 <h2>Are this links below are rendered?</h2>
                 <h3>

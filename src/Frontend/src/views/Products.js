@@ -8,7 +8,7 @@ export default class extends AbstractView {
 
     async getHtml() {
         return `
-            <div class="container">
+            <div class="containerBox">
                 <h1>Products</h1>
             </div>
         `;

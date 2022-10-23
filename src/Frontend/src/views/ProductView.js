@@ -8,8 +8,9 @@ export default class extends AbstractView {
 
     async getHtml() {
         return `
-            <div class="container">
+            <div class="containerBox">
                 <h1>Product ${this.params.id}</h1>
+                <a href="/" class="btn btn-primary" data-link>Back to Home</a>
             </div>
         `;
     }
