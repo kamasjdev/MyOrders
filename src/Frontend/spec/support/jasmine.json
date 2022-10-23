@@ -4,7 +4,7 @@
       "**/*[sS]pec.?(m)js"
     ],
     "helpers": [
-      "helpers/**/*.?(m)js"
+      "test-helpers/**/*.?(m)js"
     ],
     "env": {
       "stopSpecOnExpectationFailure": false,

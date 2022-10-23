@@ -1,6 +1,7 @@
-import './styles/main.scss'
+import './styles/main.scss';
 import Customers from './views/Customers';
 import Home from './views/Home';
+import NotFound from './views/NotFound';
 import Products from './views/Products';
 
 const navigateTo = (url) => {
@@ -26,7 +27,7 @@ const router = async () => {
 
     if (!match) {
         match = {
-            route: routes[0],
+            route: { path: '/not-found', view: NotFound },
             isMatch: true
         };
     }
