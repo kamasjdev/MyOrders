@@ -30,6 +30,24 @@ namespace MyOrders.Infrastructure.DAL
             return services;
         }
 
+        public static IServiceCollection AddDatabase(this IServiceCollection services)
+        {
+            var database = services.GetOptions<Database>("database");
+
+            services.Configure<Database>(config =>
+            {
+                config.DatabaseKind = database.DatabaseKind;
+            });
+
+            if (database.DatabaseKind == DatabaseKind.MySql)
+            {
+                services.AddMySqlOptions();
+                services.AddMySql<MyOrdersDbContext>();
+            }
+
+            return services;
+        }
+
         public static IServiceCollection AddDatabaseInitializer(this IServiceCollection services)
         {
             services.AddHostedService<DatabaseInitializer>();
@@ -51,6 +69,14 @@ namespace MyOrders.Infrastructure.DAL
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
+            var database = services.GetOptions<Database>("database");
+
+            if (database.DatabaseKind == DatabaseKind.InMemory)
+            {
+                services.AddInMemoryRepositories();
+                return services;
+            }
+
             services.AddScoped<IAddressRepository, AddressRepository>();
             services.AddScoped<IContactDataRepository, ContactDataRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();

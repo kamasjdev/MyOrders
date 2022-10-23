@@ -6,7 +6,9 @@ using MyOrders.Infrastructure.Conventions;
 using MyOrders.Infrastructure.DAL;
 using MyOrders.Infrastructure.Exceptions;
 using MyOrders.Infrastructure.Time;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("MyOrders.IntegrationTests")]
 namespace MyOrders.Infrastructure
 {
     public static class Extensions
@@ -16,8 +18,7 @@ namespace MyOrders.Infrastructure
             services.Configure<AppOptions>(configuration.GetRequiredSection("app"));
             services.AddControllers(options => options.UseDashedConventionInRouting());
             services.AddTime();
-            services.AddMySqlOptions();
-            services.AddMySql<MyOrdersDbContext>();
+            services.AddDatabase();
             services.AddRepositories();
             services.AddDatabaseInitializer();
             services.AddExceptionHandling();
