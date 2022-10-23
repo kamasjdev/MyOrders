@@ -21,7 +21,7 @@ module.exports = {
         open: true, // open browser automatically if true
         hot: true, // hot reloading
         compress: true, // gzip compression
-        historyApiFallback: false // serve on every url index.html if true
+        historyApiFallback: true // serve on every url index.html if true
     },
     module: {
         rules: [
