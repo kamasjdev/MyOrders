@@ -1,5 +1,6 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin') // html-webpack-plugin add as plugins to module.exports then dist can be deleted
+const Dotenv = require('dotenv-webpack')
 
 module.exports = {
     mode: 'development',
@@ -56,6 +57,7 @@ module.exports = {
             title: 'MyOrders-App',
             filename: 'index.html',
             template: 'src/template.html'
-        })
+        }),
+        new Dotenv()
     ]
 }
