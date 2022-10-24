@@ -13,6 +13,8 @@ namespace MyOrders.Infrastructure
 {
     public static class Extensions
     {
+        private const string Cors = "Cors";
+
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<AppOptions>(configuration.GetRequiredSection("app"));
@@ -23,12 +25,18 @@ namespace MyOrders.Infrastructure
             services.AddDatabaseInitializer();
             services.AddExceptionHandling();
             services.AddSwaggerGen();
+            services.AddCors(options =>
+                    options.AddPolicy(Cors, policy =>
+                                policy.AllowAnyMethod()
+                                      .AllowAnyHeader()
+                                      .AllowAnyOrigin()));
             return services;
         }
 
         public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app)
         {
             app.UseExceptionHandling();
+            app.UseCors(Cors);
             app.UseSwagger();
             app.UseSwaggerUI();
             return app;
