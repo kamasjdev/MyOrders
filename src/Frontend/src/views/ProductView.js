@@ -1,6 +1,6 @@
 import AbstractView from "./AbstractView";
 
-export default class extends AbstractView {
+export default class ProductView extends AbstractView {
     constructor(params) {
         super(params);
         this.setTitle('Products');
