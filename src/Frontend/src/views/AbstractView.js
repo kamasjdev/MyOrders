@@ -10,4 +10,9 @@ export default class AbstractView {
     async getHtml() {
         return ""; // returns html template per view
     }
+
+    // invoked when view is created using router
+    async created() {
+        
+    }
 }

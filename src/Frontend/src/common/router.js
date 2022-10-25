@@ -27,7 +27,7 @@ const getParams = (match) => {
     }));
 };
 
-const navigateTo = (url) => {
+export const navigateTo = (url) => {
     history.pushState(null, null, url);
     router();
 }
@@ -48,10 +48,21 @@ const router = async () => {
     }
 
     const view = new match.route.view(getParams(match));
-    document.querySelector('#app').innerHTML = await view.getHtml();
-    dispatchEvent(new CustomEvent('pageLoaded', {
-        detail: { page: view.constructor.name }
-    }))
+    const proxyView = new Proxy(view, {
+        set() {
+            Reflect.set(...arguments);
+            dispatchEvent(new CustomEvent('pageChanged', {})); // publish custom event when property changed
+            return true;
+        }
+    });
+    window.addEventListener('pageChanged', () => {
+        view.getHtml().then(html => {
+            document.querySelector('#app').innerHTML = html;
+        });
+    })
+
+    document.querySelector('#app').innerHTML = await proxyView.getHtml();
+    await proxyView.created();    
 };
 
 const validRoutes = (routes) => {
