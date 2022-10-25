@@ -7,38 +7,38 @@ export default class Products extends AbstractView {
         super(params);
         this.setTitle('Products');
         this.loading = true;
+        this.products = [];
     }
 
-    showProducts = () => {
-        window.addEventListener("pageLoaded", (event) => {
-            if (!this.constructor.name === event.detail.page) {
-                return;
+    async created() {
+        const products = await this.fetchProducts();
+        this.products = products;
+        this.loading = false;
+    }
+
+    async getHtml() {
+        console.log('loading', this.loading);
+        const returnBodyHtml = (p) => {
+            let html = '';
+            for (const product of p) {
+                html += '<tr>';
+                
+                for (const field in product) {
+                    html += '<td>';
+                    html += product[field]
+                    html += '</td>';
+                }
+                html += `<td><a href="/products/${product.id}" class="btn btn-primary" data-link>Show Details</a></td>`;
+
+                html += '</tr>';
             }
-
-            this.fetchProducts().then(products => {;
-                const loadingIcon = document.querySelector('#loading');
-                if (loadingIcon) {
-                    loadingIcon.remove();
-                }
-                const returnBodyHtml = (p) => {
-                    let html = '';
-                    for (const product of p) {
-                        html += '<tr>';
-                        
-                        for (const field in product) {
-                            html += '<td>';
-                            html += product[field]
-                            html += '</td>';
-                        }
-                        html += `<td><a href="/products/${product.id}" class="btn btn-primary" data-link>Show Details</a></td>`;
-
-                        html += '</tr>';
-                    }
-                    return html;
-                }
-                document.querySelector('#table').innerHTML = 
-                `
-                <table class="table table">
+            return html;
+        }
+        return `
+            <div class="containerBox">
+                <h1>Products</h1>
+                ${this.loading ? LoadingIcon() : 
+                `<table class="table table">
                     <thead>
                         <th>
                             Id
@@ -54,21 +54,9 @@ export default class Products extends AbstractView {
                         </th>
                     </thead>
                     <tbody>
-                        ${returnBodyHtml(products)}
+                        ${returnBodyHtml(this.products)}
                     </tbody>
-                </table>
-                `;
-            });
-        });
-    }
-
-    async getHtml() {
-        this.showProducts();
-        return `
-            <div class="containerBox">
-                <h1>Products</h1>
-                ${LoadingIcon()}
-                <div id="table"></div>
+                </table>`}
             </div>
         `;
     }
