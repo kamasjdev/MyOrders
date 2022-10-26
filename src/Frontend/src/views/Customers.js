@@ -43,10 +43,10 @@ export default class Customer extends AbstractView {
                             Id
                         </th>
                         <th>
-                            Price
+                            First Name
                         </th>
                         <th>
-                            Product Name
+                            Last Name
                         </th>
                         <th>
                             Action

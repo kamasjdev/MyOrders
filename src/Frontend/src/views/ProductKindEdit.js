@@ -3,11 +3,15 @@ import LoadingIcon from "../common/loadingIcon";
 import { navigateTo } from "../common/router";
 import AbstractView from "./AbstractView";
 
-export default class ProductKindAdd extends AbstractView {
+export default class ProductKindEdit extends AbstractView {
     constructor(params) {
         super(params);
-        this.setTitle('Add Product Kind');
+        this.setTitle('Edit Product Kind');
         this.form = {
+            id: {
+                value: 0,
+                rules: []
+            },
             productKindName: {
                 value: '',
                 showError: false,
@@ -19,7 +23,9 @@ export default class ProductKindAdd extends AbstractView {
                 ]
             }
         }
-        this.loading = false;
+        this.loading = true;
+        this.productKind = null;
+        this.updating = false;
     }
 
     async sendForm() {                
@@ -43,11 +49,11 @@ export default class ProductKindAdd extends AbstractView {
             return;
         }
 
-        this.loading = true;
-        await axios.post('api/product-kinds', {
+        this.updating = true;
+        await axios.put(`api/product-kinds/${this.params.id}`, {
             productKindName: this.form.productKindName.value
         });
-        this.loading = false;
+        this.updating = false;
         navigateTo('/product-kinds');
     }
 
@@ -91,35 +97,50 @@ export default class ProductKindAdd extends AbstractView {
                 this.onChangeInput(e.target.value, 'productKindName');
             }
         });
+        const response = await axios.get(`api/product-kinds/${this.params.id}`);
+        this.productKind = response.data;
+        this.form = {
+            ...this.form, 
+            id: {
+                ...this.form.id,
+                value: this.productKind.id
+            },
+            productKindName: {
+                ...this.form.productKindName,
+                value: this.productKind.productKindName
+            }
+        }
+        this.loading = false;
     }
 
     async getHtml() {
         return `
             <div class="containerBox">
-                <h1>Add Product Kind</h1>
-                <div class="mt-2">
-                    <form>
-                        <div class="form-group">
-                            <label for="productKindName">Product Kind Name</label>
-                            <input type="text" class="form-control" id="productKindName" aria-describedby="Product Kind Name" placeholder="Enter product kind name"
-                                value="${this.form.productKindName.value}">
-                            ${this.form.productKindName.error && this.form.productKindName.showError ?
-                                `<div class="invalid-feedback d-flex text-start">
-                                    ${this.form.productKindName.error}
-                                </div>`
-                                : '' }
-                        </div>
-                    </form>
-                </div>
-                ${this.loading ? 
-                    `<div class="mt-2">
-                        ${LoadingIcon()}
-                    </div>`
-                    : ''}
-                <div class="mt-2">
-                    <button class="btn btn-success" id="send-form" type="button">Send</button>
-                    <a class="btn btn-secondary" type="button" href="/product-kinds">Cancel</a>
-                </div>
+                ${this.loading ? '' : 
+                    `<h1>Edit Product Kind</h1>
+                    <div class="mt-2">
+                        <form>
+                            <div class="form-group">
+                                <label for="productKindName">Product Kind Name</label>
+                                <input type="text" class="form-control" id="productKindName" aria-describedby="Product Kind Name" placeholder="Enter product kind name"
+                                    value="${this.form.productKindName.value}">
+                                ${this.form.productKindName.error && this.form.productKindName.showError ?
+                                    `<div class="invalid-feedback d-flex text-start">
+                                        ${this.form.productKindName.error}
+                                    </div>`
+                                    : '' }
+                            </div>
+                        </form>
+                    </div>
+                    ${this.updating ? 
+                        `<div class="mt-2">
+                            ${LoadingIcon()}
+                        </div>`
+                        : ''}
+                    <div class="mt-2">
+                        <button class="btn btn-success" id="send-form" type="button">Send</button>
+                        <a class="btn btn-secondary" type="button" href="/product-kinds">Cancel</a>
+                    </div>`}
             </div>
         `;
     }
