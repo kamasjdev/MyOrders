@@ -9,6 +9,15 @@ import "bootstrap";
 import useRouter from './common/router';
 import CustomerView from './views/CustomerView';
 import ProductKindAdd from './views/ProductKindAdd';
+import ProductKindEdit from './views/ProductKindEdit';
+import ProductKinds from './views/ProductKinds';
+import AddToCartForCustomer from './views/AddToCartForCustomer';
+import AddToCart from './views/AddToCart';
+import Cart from './views/Cart';
+import CartForCustomer from './views/CartForCustomer';
+import OrderView from './views/OrderView';
+import OrdersForCustomer from './views/OrdersForCustomer';
+import Orders from './views/Orders';
 
 const routes = [
     { path: '/', view: Home },
@@ -16,7 +25,16 @@ const routes = [
     { path: '/products', view: Products },
     { path: '/products/:id', view: ProductView },
     { path: '/customers/:id', view: CustomerView },
+    { path: '/product-kinds', view: ProductKinds },
     { path: '/product-kinds/add', view: ProductKindAdd },
+    { path: '/product-kinds/edit/:id', view: ProductKindEdit },
+    { path: '/add-to-cart', view: AddToCart },
+    { path: '/add-to-cart/:id', view: AddToCartForCustomer },
+    { path: '/cart', view: Cart },
+    { path: '/cart/:id', view: CartForCustomer },
+    { path: '/orders', view: Orders },
+    { path: '/orders/view/:id', view: OrderView },
+    { path: '/orders/:id', view: OrdersForCustomer },
     { path: '(.*)', view: NotFound } // every character will be matched
 ];
 
