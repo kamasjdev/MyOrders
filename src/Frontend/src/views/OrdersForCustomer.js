@@ -11,7 +11,7 @@ export default class OrdersForCustomer extends AbstractView {
         this.orders = [];
     }
 
-    deleteProductKind = (id) => {
+    deleteOrder = (id) => {
         axios.delete(`api/orders/${id}`)
         .then(_ => {
             navigateTo('/orders');
@@ -32,7 +32,7 @@ export default class OrdersForCustomer extends AbstractView {
                     const yesBtn = document.querySelector('.yes');
                     yesBtn.onclick = () => {
                         dialogEl.close();
-                        this.deleteProductKind(order.id);
+                        this.deleteOrder(order.id);
                     };
                     const noBtn = document.querySelector('.no');
                     noBtn.onclick = () => {

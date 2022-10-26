@@ -29,8 +29,9 @@ export default class CartForCustomer extends AbstractView {
     }
 
     async deleteFromCart(orderItem) {
-        await axios.delete(`api/order-items/${orderItem.id}`);
-        location.reload();
+        await axios.delete(`api/order-items/${orderItem.id}`);        
+        const orderItems = await this.fetchOrderItems();
+        this.orderItems = orderItems;
     }
 
     async createOrder() {
@@ -66,7 +67,7 @@ export default class CartForCustomer extends AbstractView {
                 html += '<td>';
                 html += orderItem.created
                 html += '</td>';
-                html += `<td><button id="cart-${orderItem.id}" type="button" class="btn btn-danger" data-link>Delete</button></td>`;
+                html += `<td><button id="cart-${orderItem.id}" type="button" class="btn btn-danger">Delete</button></td>`;
 
                 html += '</tr>';
             }

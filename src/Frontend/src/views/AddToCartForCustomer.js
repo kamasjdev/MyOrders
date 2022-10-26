@@ -29,7 +29,6 @@ export default class AddToCartForCustomer extends AbstractView {
             productId: product.id,
             customerId: this.params.id
         });
-        location.reload();
     }
 
     async getHtml() {
@@ -43,7 +42,7 @@ export default class AddToCartForCustomer extends AbstractView {
                     html += product[field]
                     html += '</td>';
                 }
-                html += `<td><button id="add-to-cart-${product.id}" type="button" class="btn btn-primary" data-link>Add To Cart</button></td>`;
+                html += `<td><button id="add-to-cart-${product.id}" type="button" class="btn btn-primary">Add To Cart</button></td>`;
 
                 html += '</tr>';
             }
@@ -78,7 +77,6 @@ export default class AddToCartForCustomer extends AbstractView {
 
     async fetchProducts() {
         const response = await axios.get('api/products');
-        console.log('fetched');
         return response.data;
     }
 }
