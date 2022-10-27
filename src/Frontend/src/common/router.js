@@ -27,7 +27,10 @@ const getParams = (match) => {
     }));
 };
 
+let currentView = null;
+
 export const navigateTo = (url) => {
+    currentView.onDestroy(); // cleanup resources
     history.pushState(null, null, url);
     router();
 }
@@ -55,14 +58,18 @@ const router = async () => {
             return true;
         }
     });
+    proxyView.beforeCreateView();
     window.addEventListener('pageChanged', () => {
         view.getHtml().then(html => {
+            console.log('changed');
             document.querySelector('#app').innerHTML = html;
         });
     })
 
     document.querySelector('#app').innerHTML = await proxyView.getHtml();
-    await proxyView.created();    
+    await proxyView.created();
+    proxyView.afterCreateView();
+    currentView = proxyView;
 };
 
 const validRoutes = (routes) => {
@@ -135,6 +142,7 @@ export default function useRouter(routes) {
     validatedRoutes = routes;
 
     window.addEventListener('popstate', () => { 
+        currentView.onDestroy(); // cleanup resources
         router();
      }); // event is fired when the active history entry changes
 

@@ -14,14 +14,12 @@ export default class AddToCartForCustomer extends AbstractView {
         const products = await this.fetchProducts();
         this.products = products;
         this.loading = false;
-        document.addEventListener('click', async (event) => {
-            for (const product of this.products) {
-                if (event.target.matches(`#add-to-cart-${product.id}`)) {
-                    event.preventDefault();
-                    await this.addToCart(product);
-                }
-            }
-        });
+    }
+
+    afterCreateView() {
+        for (const product of this.products) {
+            document.querySelector(`#add-to-cart-${product.id}`).onclick = async () => await this.addToCart(product);
+        }
     }
 
     async addToCart(product) {

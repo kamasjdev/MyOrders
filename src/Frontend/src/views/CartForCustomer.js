@@ -15,31 +15,33 @@ export default class CartForCustomer extends AbstractView {
         const orderItems = await this.fetchOrderItems();
         this.orderItems = orderItems;
         this.loading = false;
-        document.addEventListener('click', async (event) => {
-            for (const orderItem of this.orderItems) {
-                if (event.target.matches(`#cart-${orderItem.id}`)) {
-                    await this.deleteFromCart(orderItem);
-                }
-            }
-
-            if (event.target.matches('#accept-order')) {
-                await this.createOrder();
-            }
-        })
     }
 
-    async deleteFromCart(orderItem) {
-        await axios.delete(`api/order-items/${orderItem.id}`);        
-        const orderItems = await this.fetchOrderItems();
-        this.orderItems = orderItems;
+    deleteFromCart(orderItem) {
+        axios.delete(`api/order-items/${orderItem.id}`)
+        .then(_ => {
+            this.fetchOrderItems()
+            .then(orderItems => {
+                this.orderItems = orderItems
+            })
+        });
     }
 
-    async createOrder() {
-        const response = await axios.post('api/orders', {
+    createOrder() {
+        axios.post('api/orders', {
             customerId: this.params.id,
             orderItemIds: this.orderItems.map(oi => oi.id)
+        }).then(response => {
+            navigateTo(`/orders/view/${response.data.id}`);
         });
-        navigateTo(`/orders/view/${response.data.id}`);
+    }
+
+    afterCreateView() {
+        for (const orderItem of this.orderItems) {
+            document.querySelector(`#cart-${orderItem.id}`).onclick = () => this.deleteFromCart(orderItem);
+        }
+
+        document.querySelector('#accept-order').onclick = () => this.createOrder();
     }
 
     calculateTotalPrice() {
@@ -108,7 +110,7 @@ export default class CartForCustomer extends AbstractView {
                     </div>
                 </div>
                 <div>
-                    <button id="accept-order" class="btn btn-success mt-2">Accept Order</button>
+                    <button id="accept-order" type="button" class="btn btn-success mt-2">Accept Order</button>
                 </div>
                 `}
             </div>

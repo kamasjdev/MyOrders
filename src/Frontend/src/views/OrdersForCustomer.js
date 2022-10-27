@@ -14,7 +14,10 @@ export default class OrdersForCustomer extends AbstractView {
     deleteOrder = (id) => {
         axios.delete(`api/orders/${id}`)
         .then(_ => {
-            navigateTo('/orders');
+            this.fetchOrders().then(response => {
+                this.orders = response;
+                this.forceUpdateView();
+            });
         });
     }
 

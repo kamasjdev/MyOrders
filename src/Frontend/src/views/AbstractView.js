@@ -15,4 +15,19 @@ export default class AbstractView {
     async created() {
         
     }
+
+    beforeCreateView() {
+
+    }
+
+    afterCreateView() {
+
+    }
+
+    forceUpdateView() {
+        dispatchEvent(new CustomEvent('pageChanged', {}));
+    }
+
+    onDestroy() {
+    }
 }
