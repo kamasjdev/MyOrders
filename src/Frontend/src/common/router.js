@@ -61,7 +61,6 @@ const router = async () => {
     proxyView.beforeCreateView();
     window.addEventListener('pageChanged', () => {
         view.getHtml().then(html => {
-            console.log('changed');
             document.querySelector('#app').innerHTML = html;
         });
     })

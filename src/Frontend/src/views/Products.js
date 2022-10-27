@@ -10,6 +10,35 @@ export default class Products extends AbstractView {
         this.products = [];
     }
 
+    beforeCreateView() {
+        document.addEventListener('click', (event) => {
+            for (const product of this.products) {
+                if (event.target.matches(`#delete-product-${product.id}`)) {
+                    const dialogEl = document.querySelector('dialog');
+                    event.preventDefault();
+                    document.querySelector('#content').innerHTML = `Do you wish to delete Product with id ${product.id}?`;
+                    dialogEl.showModal();
+                    const yesBtn = document.querySelector('.yes');
+                    yesBtn.onclick = async () => {
+                        dialogEl.close();
+                        this.deleteProduct(product.id);
+                    };
+                    const noBtn = document.querySelector('.no');
+                    noBtn.onclick = () => {
+                        dialogEl.close();
+                    };
+                }
+            }
+        });
+    }
+
+    async deleteProduct(id) {
+        await axios.delete(`api/products/${id}`);
+        const products = await this.fetchProducts();
+        this.products = products;
+        this.forceUpdateView();
+    }
+
     async created() {
         const products = await this.fetchProducts();
         this.products = products;
@@ -17,7 +46,6 @@ export default class Products extends AbstractView {
     }
 
     async getHtml() {
-        console.log('loading', this.loading);
         const returnBodyHtml = (p) => {
             let html = '';
             for (const product of p) {
@@ -28,7 +56,10 @@ export default class Products extends AbstractView {
                     html += product[field]
                     html += '</td>';
                 }
-                html += `<td><a href="/products/${product.id}" class="btn btn-primary" data-link>Show Details</a></td>`;
+                html += `<td>
+                            <a href="/products/${product.id}" class="btn btn-primary" data-link>Show Details</a>
+                            <button id="delete-product-${product.id}" class="btn btn-danger" type="button">Delete</button>
+                        </td>`;
 
                 html += '</tr>';
             }
@@ -56,7 +87,13 @@ export default class Products extends AbstractView {
                     <tbody>
                         ${returnBodyHtml(this.products)}
                     </tbody>
-                </table>`}
+                </table>
+                <dialog>
+                    <div id="content">
+                    </div>
+                    <button class="yes btn btn-danger">Yes</button>
+                    <button class="no btn btn-secondary">No</button>
+                </dialog>`}
             </div>
         `;
     }

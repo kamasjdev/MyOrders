@@ -10,6 +10,35 @@ export default class Customer extends AbstractView {
         this.customers = [];
     }
 
+    beforeCreateView() {
+        document.addEventListener('click', (event) => {
+            for (const customer of this.customers) {
+                if (event.target.matches(`#delete-customer-${customer.id}`)) {
+                    const dialogEl = document.querySelector('dialog');
+                    event.preventDefault();
+                    document.querySelector('#content').innerHTML = `Do you wish to delete Order with id ${customer.id}?`;
+                    dialogEl.showModal();
+                    const yesBtn = document.querySelector('.yes');
+                    yesBtn.onclick = async () => {
+                        dialogEl.close();
+                        this.deleteCustomer(customer.id);
+                    };
+                    const noBtn = document.querySelector('.no');
+                    noBtn.onclick = () => {
+                        dialogEl.close();
+                    };
+                }
+            }
+        });
+    }
+
+    async deleteCustomer(id) {
+        await axios.delete(`api/customers/${id}`);
+        const customers = await this.fetchCustomers();
+        this.customers = customers;
+        this.forceUpdateView();
+    }
+
     async created() {
         const customers = await this.fetchCustomers();
         this.customers = customers;
@@ -27,7 +56,10 @@ export default class Customer extends AbstractView {
                     html += customer[field]
                     html += '</td>';
                 }
-                html += `<td><a href="/customers/${customer.id}" class="btn btn-primary" data-link>Show Details</a></td>`;
+                html += `<td>
+                            <a href="/customers/${customer.id}" class="btn btn-primary" data-link>Show Details</a>
+                            <button id="delete-customer-${customer.id}" class="btn btn-danger" type="button">Delete</button>
+                        </td>`;
 
                 html += '</tr>';
             }
@@ -55,7 +87,13 @@ export default class Customer extends AbstractView {
                     <tbody>
                         ${returnBodyHtml(this.customers)}
                     </tbody>
-                </table>`}
+                </table>
+                <dialog>
+                    <div id="content">
+                    </div>
+                    <button class="yes btn btn-danger">Yes</button>
+                    <button class="no btn btn-secondary">No</button>
+                </dialog>`}
             </div>
         `;
     }
