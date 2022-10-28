@@ -20,11 +20,13 @@ import OrdersForCustomer from './views/OrdersForCustomer';
 import Orders from './views/Orders';
 import CustomerAdd from './views/CustomerAdd';
 import CustomerEdit from './views/CustomerEdit';
+import ProductAdd from './views/ProductAdd';
 
 const routes = [
     { path: '/', view: Home },
     { path: '/customers', view: Customers },
     { path: '/products', view: Products },
+    { path: '/products/add', view: ProductAdd },
     { path: '/products/:id', view: ProductView },
     { path: '/customers/add', view: CustomerAdd },
     { path: '/customers/edit/:id', view: CustomerEdit },
