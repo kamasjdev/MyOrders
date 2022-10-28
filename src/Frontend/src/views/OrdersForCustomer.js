@@ -79,10 +79,7 @@ export default class OrdersForCustomer extends AbstractView {
             <div class="containerBox">
                 <h1>Orders</h1>
                 ${this.loading ? loadingIcon() : 
-                `<div class="d-flex justify-content-start mb-2">
-                    <a class="btn btn-success" href="/orders/add" data-link>Add</a>
-                </div>
-                <table class="table table">
+                `<table class="table table">
                     <thead>
                         <th>
                             Id

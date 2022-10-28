@@ -13,6 +13,10 @@ export default class Customer extends AbstractView {
     }
 
     assignDeleteButtons(event) {
+        if(!_object) {
+            return;
+        }
+        
         for (const customer of _object.customers) {
             if (event.target.matches(`#delete-customer-${customer.id}`)) {
                 const dialogEl = document.querySelector('dialog');

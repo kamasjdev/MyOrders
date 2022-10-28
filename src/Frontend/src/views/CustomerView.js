@@ -34,7 +34,7 @@ export default class CustomerView extends AbstractView {
                             First Name:
                         </div>
                         <div>
-                            ${this.customer.fistName}
+                            ${this.customer.firstName}
                         </div>
                     </div>
                     <div class="mt-2 d-flex justify-content-center">

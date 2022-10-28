@@ -18,12 +18,14 @@ import CartForCustomer from './views/CartForCustomer';
 import OrderView from './views/OrderView';
 import OrdersForCustomer from './views/OrdersForCustomer';
 import Orders from './views/Orders';
+import CustomerAdd from './views/CustomerAdd';
 
 const routes = [
     { path: '/', view: Home },
     { path: '/customers', view: Customers },
     { path: '/products', view: Products },
     { path: '/products/:id', view: ProductView },
+    { path: '/customers/add', view: CustomerAdd },
     { path: '/customers/:id', view: CustomerView },
     { path: '/product-kinds', view: ProductKinds },
     { path: '/product-kinds/add', view: ProductKindAdd },
