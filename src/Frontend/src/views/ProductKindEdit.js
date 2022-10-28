@@ -3,6 +3,8 @@ import LoadingIcon from "../common/loadingIcon";
 import { navigateTo } from "../common/router";
 import AbstractView from "./AbstractView";
 
+let _object = null;
+
 export default class ProductKindEdit extends AbstractView {
     constructor(params) {
         super(params);
@@ -84,19 +86,30 @@ export default class ProductKindEdit extends AbstractView {
         }
     }
 
+    async assignSendForm(e) {
+        if (e.target.matches("#send-form")) {
+            e.preventDefault();
+            await _object.sendForm()
+        }
+    }
+
+    assignInput(e) {
+        if (e.target.matches("#productKindName")) {
+            e.preventDefault();
+            this.onChangeInput(e.target.value, 'productKindName');
+        }
+    }
+
+    onDestroy() {
+        document.removeEventListener('click', this.assignSendForm, false);
+        document.removeEventListener('change', this.assignInput, false);
+        _object = null;
+    }
+
     async created() {
-        document.addEventListener('click', async (e) => {
-            if (e.target.matches("#send-form")) {
-                e.preventDefault();
-                await this.sendForm()
-            }
-        });
-        document.addEventListener('change', (e) => {
-            if (e.target.matches("#productKindName")) {
-                e.preventDefault();
-                this.onChangeInput(e.target.value, 'productKindName');
-            }
-        });
+        _object = this;
+        document.addEventListener('click', this.assignSendForm, false);
+        document.addEventListener('change', this.assignInput, false);
         const response = await axios.get(`api/product-kinds/${this.params.id}`);
         this.productKind = response.data;
         this.form = {

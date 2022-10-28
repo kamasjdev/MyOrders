@@ -11,13 +11,19 @@ export default class ProductView extends AbstractView {
         this.loading = true;
     }
 
+    backToProducts = (e) => {
+        if (e.target.matches("#back-to-products")) { // every element with attribute data-link will be matched
+            e.preventDefault();
+            navigateTo('/products');
+        }
+    }
+
+    onDestroy() {
+        document.body.removeEventListener('click', this.backToProducts, false);
+    }
+
     async created() {
-        document.body.addEventListener('click', e => {
-            if (e.target.matches("#back-to-home")) { // every element with attribute data-link will be matched
-                e.preventDefault();
-                navigateTo('/');
-            }
-        });
+        document.body.addEventListener('click', this.backToProducts, false);
         const response = await axios.get(`api/products/${this.params.id}`);
         this.product = response.data;
         this.loading = false;
@@ -54,7 +60,7 @@ export default class ProductView extends AbstractView {
                         </div>
                     </div>
                 </div>`}
-                <button id="back-to-home" class="mt-4 btn btn-primary">Back to Home</button>
+                <button id="back-to-products" class="mt-4 btn btn-primary">Back to Home</button>
             </div>
         `;
     }

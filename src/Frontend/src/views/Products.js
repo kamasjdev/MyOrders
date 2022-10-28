@@ -2,34 +2,44 @@ import AbstractView from "./AbstractView";
 import axios from "../axios-setup";
 import LoadingIcon from "../common/loadingIcon";
 
+let _object = null;
+
 export default class Products extends AbstractView {
     constructor(params) {
         super(params);
         this.setTitle('Products');
         this.loading = true;
         this.products = [];
+        _object = this;
+    }
+
+    assignDeleteButtons(event) {
+        for (const product of _object.products) {
+            if (event.target.matches(`#delete-product-${product.id}`)) {
+                const dialogEl = document.querySelector('dialog');
+                event.preventDefault();
+                document.querySelector('#content').innerHTML = `Do you wish to delete Product with id ${product.id}?`;
+                dialogEl.showModal();
+                const yesBtn = document.querySelector('.yes');
+                yesBtn.onclick = async () => {
+                    dialogEl.close();
+                    _object.deleteProduct(product.id);
+                };
+                const noBtn = document.querySelector('.no');
+                noBtn.onclick = () => {
+                    dialogEl.close();
+                };
+            }
+        }
     }
 
     beforeCreateView() {
-        document.addEventListener('click', (event) => {
-            for (const product of this.products) {
-                if (event.target.matches(`#delete-product-${product.id}`)) {
-                    const dialogEl = document.querySelector('dialog');
-                    event.preventDefault();
-                    document.querySelector('#content').innerHTML = `Do you wish to delete Product with id ${product.id}?`;
-                    dialogEl.showModal();
-                    const yesBtn = document.querySelector('.yes');
-                    yesBtn.onclick = async () => {
-                        dialogEl.close();
-                        this.deleteProduct(product.id);
-                    };
-                    const noBtn = document.querySelector('.no');
-                    noBtn.onclick = () => {
-                        dialogEl.close();
-                    };
-                }
-            }
-        });
+        document.addEventListener('click', this.assignDeleteButtons, false);
+    }
+
+    onDestroy() {
+        document.removeEventListener('click', this.assignDeleteButtons, false);
+        _object = null;
     }
 
     async deleteProduct(id) {

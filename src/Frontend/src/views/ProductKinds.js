@@ -3,12 +3,15 @@ import loadingIcon from "../common/loadingIcon";
 import { navigateTo } from "../common/router.js";
 import AbstractView from "./AbstractView";
 
+let _object = null;
+
 export default class ProductKinds extends AbstractView {
     constructor(params) {
         super(params);
         this.setTitle('Product Kinds');
         this.loading = true;
         this.productKinds = [];
+        _object = this;
     }
 
     deleteProductKind = (id) => {
@@ -18,29 +21,36 @@ export default class ProductKinds extends AbstractView {
         });
     }
 
+    onDestroy() {
+        document.removeEventListener('click', this.assignDeleteButtons, false);
+        _object = null;
+    }
+
+    assignDeleteButtons(event) {
+        for (const productKind of _object.productKinds) {
+            if (event.target.matches(`#delete-product-kind-${productKind.id}`)) {
+                const dialogEl = document.querySelector('dialog');
+                event.preventDefault();
+                document.querySelector('#content').innerHTML = `Do you wish to delete ProductKind with id ${productKind.id}?`;
+                dialogEl.showModal();
+                const yesBtn = document.querySelector('.yes');
+                yesBtn.onclick = () => {
+                    dialogEl.close();
+                    _object.deleteProductKind(productKind.id);
+                };
+                const noBtn = document.querySelector('.no');
+                noBtn.onclick = () => {
+                    dialogEl.close();
+                };
+            }
+        }
+    }
+
     async created() {
         const productKinds = await this.fetchProductKinds();
         this.productKinds = productKinds;
         this.loading = false;
-        document.addEventListener('click', (event) => {
-            for (const productKind of productKinds) {
-                if (event.target.matches(`#delete-product-kind-${productKind.id}`)) {
-                    const dialogEl = document.querySelector('dialog');
-                    event.preventDefault();
-                    document.querySelector('#content').innerHTML = `Do you wish to delete ProductKind with id ${productKind.id}?`;
-                    dialogEl.showModal();
-                    const yesBtn = document.querySelector('.yes');
-                    yesBtn.onclick = () => {
-                        dialogEl.close();
-                        this.deleteProductKind(productKind.id);
-                    };
-                    const noBtn = document.querySelector('.no');
-                    noBtn.onclick = () => {
-                        dialogEl.close();
-                    };
-                }
-            }
-        });
+        document.addEventListener('click', this.assignDeleteButtons, false);
     }
 
     async getHtml() {

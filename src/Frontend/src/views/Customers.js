@@ -2,6 +2,8 @@ import axios from "../axios-setup.js";
 import loadingIcon from "../common/loadingIcon";
 import AbstractView from "./AbstractView";
 
+let _object = null;
+
 export default class Customer extends AbstractView {
     constructor(params) {
         super(params);
@@ -10,26 +12,33 @@ export default class Customer extends AbstractView {
         this.customers = [];
     }
 
-    beforeCreateView() {
-        document.addEventListener('click', (event) => {
-            for (const customer of this.customers) {
-                if (event.target.matches(`#delete-customer-${customer.id}`)) {
-                    const dialogEl = document.querySelector('dialog');
-                    event.preventDefault();
-                    document.querySelector('#content').innerHTML = `Do you wish to delete Order with id ${customer.id}?`;
-                    dialogEl.showModal();
-                    const yesBtn = document.querySelector('.yes');
-                    yesBtn.onclick = async () => {
-                        dialogEl.close();
-                        this.deleteCustomer(customer.id);
-                    };
-                    const noBtn = document.querySelector('.no');
-                    noBtn.onclick = () => {
-                        dialogEl.close();
-                    };
-                }
+    assignDeleteButtons(event) {
+        for (const customer of _object.customers) {
+            if (event.target.matches(`#delete-customer-${customer.id}`)) {
+                const dialogEl = document.querySelector('dialog');
+                event.preventDefault();
+                document.querySelector('#content').innerHTML = `Do you wish to delete Order with id ${customer.id}?`;
+                dialogEl.showModal();
+                const yesBtn = document.querySelector('.yes');
+                yesBtn.onclick = async () => {
+                    dialogEl.close();
+                    _object.deleteCustomer(customer.id);
+                };
+                const noBtn = document.querySelector('.no');
+                noBtn.onclick = () => {
+                    dialogEl.close();
+                };
             }
-        });
+        }
+    }
+
+    beforeCreateView() {
+        document.addEventListener('click', this.assignDeleteButtons, false);
+    }
+
+    onDestroy() {
+        document.removeEventListener('click', this.assignDeleteButtons, false);
+        _object = null;
     }
 
     async deleteCustomer(id) {

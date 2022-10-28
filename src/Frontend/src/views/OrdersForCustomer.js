@@ -1,7 +1,8 @@
 import axios from "../axios-setup.js";
 import loadingIcon from "../common/loadingIcon";
-import { navigateTo } from "../common/router.js";
 import AbstractView from "./AbstractView";
+
+let _object = null;
 
 export default class OrdersForCustomer extends AbstractView {
     constructor(params) {
@@ -9,6 +10,7 @@ export default class OrdersForCustomer extends AbstractView {
         this.setTitle('Orders');
         this.loading = true;
         this.orders = [];
+        _object = this;
     }
 
     deleteOrder = (id) => {
@@ -21,29 +23,36 @@ export default class OrdersForCustomer extends AbstractView {
         });
     }
 
+    assignDeleteButtons(event) {
+        for (const order of _object.orders) {
+            if (event.target.matches(`#delete-order-${order.id}`)) {
+                const dialogEl = document.querySelector('dialog');
+                event.preventDefault();
+                document.querySelector('#content').innerHTML = `Do you wish to delete Order with id ${order.id}?`;
+                dialogEl.showModal();
+                const yesBtn = document.querySelector('.yes');
+                yesBtn.onclick = () => {
+                    dialogEl.close();
+                    _object.deleteOrder(order.id);
+                };
+                const noBtn = document.querySelector('.no');
+                noBtn.onclick = () => {
+                    dialogEl.close();
+                };
+            }
+        }
+    }
+
     async created() {
         const orders = await this.fetchOrders();
         this.orders = orders;
         this.loading = false;
-        document.addEventListener('click', (event) => {
-            for (const order of orders) {
-                if (event.target.matches(`#delete-order-${order.id}`)) {
-                    const dialogEl = document.querySelector('dialog');
-                    event.preventDefault();
-                    document.querySelector('#content').innerHTML = `Do you wish to delete Order with id ${order.id}?`;
-                    dialogEl.showModal();
-                    const yesBtn = document.querySelector('.yes');
-                    yesBtn.onclick = () => {
-                        dialogEl.close();
-                        this.deleteOrder(order.id);
-                    };
-                    const noBtn = document.querySelector('.no');
-                    noBtn.onclick = () => {
-                        dialogEl.close();
-                    };
-                }
-            }
-        });
+        document.addEventListener('click', this.assignDeleteButtons, false);
+    }
+
+    onDestroy() {
+        document.removeEventListener('click', this.assignDeleteButtons, false);
+        _object = null;
     }
 
     async getHtml() {

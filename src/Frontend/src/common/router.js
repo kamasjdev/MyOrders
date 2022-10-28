@@ -30,7 +30,7 @@ const getParams = (match) => {
 let currentView = null;
 
 export const navigateTo = (url) => {
-    currentView.onDestroy(); // cleanup resources
+    currentView?.onDestroy(); // cleanup resources
     history.pushState(null, null, url);
     router();
 }
@@ -141,7 +141,7 @@ export default function useRouter(routes) {
     validatedRoutes = routes;
 
     window.addEventListener('popstate', () => { 
-        currentView.onDestroy(); // cleanup resources
+        currentView?.onDestroy(); // cleanup resources
         router();
      }); // event is fired when the active history entry changes
 

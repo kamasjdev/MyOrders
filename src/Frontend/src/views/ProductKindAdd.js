@@ -3,6 +3,8 @@ import LoadingIcon from "../common/loadingIcon";
 import { navigateTo } from "../common/router";
 import AbstractView from "./AbstractView";
 
+let _object = null;
+
 export default class ProductKindAdd extends AbstractView {
     constructor(params) {
         super(params);
@@ -67,6 +69,7 @@ export default class ProductKindAdd extends AbstractView {
 
     onChangeInput(value, fieldName) {
         const error = this.validate(value, fieldName);
+        console.log(this);
         this.form = {
             ...this.form, 
             [fieldName]: {
@@ -78,19 +81,31 @@ export default class ProductKindAdd extends AbstractView {
         }
     }
 
+    async assignSendForm(e) {
+        if (e.target.matches("#send-form")) {
+            e.preventDefault();
+            await _object.sendForm()
+        }
+    }
+
+    assignInput(e) {
+        if (e.target.matches("#productKindName")) {
+            e.preventDefault();
+            console.log(_object);
+            _object.onChangeInput(e.target.value, 'productKindName');
+        }
+    }
+    
+    onDestroy() {
+        document.removeEventListener('click', this.assignSendForm, false);
+        document.removeEventListener('change', this.assignInput, false);
+        _object = null;
+    }
+
     async created() {
-        document.addEventListener('click', async (e) => {
-            if (e.target.matches("#send-form")) {
-                e.preventDefault();
-                await this.sendForm()
-            }
-        });
-        document.addEventListener('change', (e) => {
-            if (e.target.matches("#productKindName")) {
-                e.preventDefault();
-                this.onChangeInput(e.target.value, 'productKindName');
-            }
-        });
+        _object = this;
+        document.addEventListener('click', this.assignSendForm, false);
+        document.addEventListener('change', this.assignInput, false);
     }
 
     async getHtml() {
