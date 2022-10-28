@@ -13,10 +13,6 @@ export default class Customer extends AbstractView {
     }
 
     assignDeleteButtons(event) {
-        if(!_object) {
-            return;
-        }
-        
         for (const customer of _object.customers) {
             if (event.target.matches(`#delete-customer-${customer.id}`)) {
                 const dialogEl = document.querySelector('dialog');
@@ -36,7 +32,7 @@ export default class Customer extends AbstractView {
         }
     }
 
-    beforeCreateView() {
+    afterCreateView() {
         document.addEventListener('click', this.assignDeleteButtons, false);
     }
 
@@ -56,6 +52,7 @@ export default class Customer extends AbstractView {
         const customers = await this.fetchCustomers();
         this.customers = customers;
         this.loading = false;
+        _object = this;
     }
 
     async getHtml() {
@@ -71,6 +68,7 @@ export default class Customer extends AbstractView {
                 }
                 html += `<td>
                             <a href="/customers/${customer.id}" class="btn btn-primary" data-link>Show Details</a>
+                            <a href="/customers/edit/${customer.id}" class="btn btn-warning" data-link>Edit</a>
                             <button id="delete-customer-${customer.id}" class="btn btn-danger" type="button">Delete</button>
                         </td>`;
 
@@ -82,7 +80,10 @@ export default class Customer extends AbstractView {
             <div class="containerBox">
                 <h1>Customers</h1>
                 ${this.loading ? loadingIcon() : 
-                `<table class="table table">
+                `<div class="d-flex justify-content-start mb-2">
+                    <a class="btn btn-success" href="/customers/add" data-link>Add</a>
+                </div>
+                <table class="table table">
                     <thead>
                         <th>
                             Id

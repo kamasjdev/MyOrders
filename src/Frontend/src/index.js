@@ -19,6 +19,7 @@ import OrderView from './views/OrderView';
 import OrdersForCustomer from './views/OrdersForCustomer';
 import Orders from './views/Orders';
 import CustomerAdd from './views/CustomerAdd';
+import CustomerEdit from './views/CustomerEdit';
 
 const routes = [
     { path: '/', view: Home },
@@ -26,6 +27,7 @@ const routes = [
     { path: '/products', view: Products },
     { path: '/products/:id', view: ProductView },
     { path: '/customers/add', view: CustomerAdd },
+    { path: '/customers/edit/:id', view: CustomerEdit },
     { path: '/customers/:id', view: CustomerView },
     { path: '/product-kinds', view: ProductKinds },
     { path: '/product-kinds/add', view: ProductKindAdd },

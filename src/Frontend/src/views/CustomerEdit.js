@@ -5,10 +5,11 @@ import AbstractView from "./AbstractView";
 
 let _object = null;
 
-export default class CustomerAdd extends AbstractView {
+export default class CustomerEdit extends AbstractView {
     constructor(params) {
         super(params);
-        this.setTitle('Add Customer');
+        this.setTitle('Edit Customer');
+        this.customer = null;
         this.form = {
             firstName: {
                 value: '',
@@ -136,25 +137,25 @@ export default class CustomerAdd extends AbstractView {
 
         this.loading = true;
         
-        Promise.all([axios.post('api/addresses', {
+        Promise.all([axios.put(`api/addresses/${this.customer.address.id}`, {
             countryName: this.form.countryName.value,
             cityName: this.form.cityName.value,
             streetName: this.form.streetName.value,
             buildingNumber: this.form.buildingNumber.value,
             flatNumber: this.form.flatNumber.value,
             zipCode: this.form.zipCode.value
-        }),axios.post('api/contact-datas', {
+        }),axios.put(`api/contact-datas/${this.customer.contactData.id}`, {
             email: this.form.email.value,
             countryCode: this.form.countryCode.value,
             phoneNumber: this.form.phoneNumber.value
         })])
             .then(response => {
-                axios.post('api/customers', {
+                axios.put(`api/customers/${this.params.id}`, {
                     firstName: this.form.firstName.value,
                     lastName: this.form.lastName.value,
                     addressId: response[0].data.id,
                     contactDataId: response[1].data.id
-                }).then(resp => {
+                }).then(_ => {
                     this.loading = false;
                     navigateTo('/customers')
                 });
@@ -209,12 +210,68 @@ export default class CustomerAdd extends AbstractView {
         _object = null;
     }
 
-    async created() {
-        _object = this;
+    afterCreateView() {
         document.addEventListener('click', this.assignSendForm, false);
         document.addEventListener('change', this.assignInputs, false);
     }
 
+    async created() {
+        _object = this;
+        this.customer = await this.fetchCustomer();
+        this.form = {
+            ...this.form,
+            firstName: {
+                ...this.form.firstName,
+                value: this.customer?.firstName ?? '',
+            },
+            lastName: {
+                ...this.form.lastName,
+                value: this.customer?.lastName ?? '',
+            },
+            countryName: {
+                ...this.form.countryName,
+                value: this.customer?.address?.countryName ?? '',
+            },
+            cityName: {
+                ...this.form.cityName,
+                value: this.customer?.address?.cityName ?? '',
+            },
+            streetName: {
+                ...this.form.streetName,
+                value: this.customer?.address?.streetName ?? '',
+            },
+            buildingNumber: {
+                ...this.form.buildingNumber,
+                value: this.customer?.address?.buildingNumber ?? null,
+            },
+            flatNumber: {
+                ...this.form.flatNumber,
+                value: this.customer?.address?.flatNumber ?? null,
+            },
+            zipCode: {
+                ...this.form.zipCode,
+                value: this.customer?.address?.zipCode ?? '',
+            },
+            email: {
+                ...this.form.email,
+                value: this.customer?.contactData?.email ?? '',
+            },
+            countryCode: {
+                ...this.form.countryCode,
+                value: this.customer?.contactData?.countryCode ?? '+48',
+            },
+            phoneNumber: {
+                ...this.form.phoneNumber,
+                value: this.customer?.contactData?.phoneNumber ?? '',
+            }
+        }
+    }
+
+    async fetchCustomer() {
+        const response = await axios.get(`api/customers/${this.params.id}`);
+        return response.data;
+    }
+    
     async getHtml() {
         const getCountryCodesAsOptions = () => {
             let options = '';
