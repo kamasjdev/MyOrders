@@ -68,6 +68,7 @@ export default class Products extends AbstractView {
                 }
                 html += `<td>
                             <a href="/products/${product.id}" class="btn btn-primary" data-link>Show Details</a>
+                            <a href="/products/edit/${product.id}" class="btn btn-warning" data-link>Edit</a>
                             <button id="delete-product-${product.id}" class="btn btn-danger" type="button">Delete</button>
                         </td>`;
 
