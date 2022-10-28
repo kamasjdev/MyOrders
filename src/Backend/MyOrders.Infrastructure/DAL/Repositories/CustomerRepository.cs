@@ -23,6 +23,8 @@ namespace MyOrders.Infrastructure.DAL.Repositories
         public async Task DeleteAsync(Customer customer)
         {
             _dbContext.Customers.Remove(customer);
+            _dbContext.Addresses.Remove(customer.Address);
+            _dbContext.ContactDatas.Remove(customer.ContactData);
             await _dbContext.SaveChangesAsync();
         }
 
