@@ -77,7 +77,7 @@ export default class OrdersForCustomer extends AbstractView {
         }
         return `
             <div class="containerBox">
-                <h1>Orders</h1>
+                <h1>Orders for customer ${this.params.id}</h1>
                 ${this.loading ? loadingIcon() : 
                 `<table class="table table">
                     <thead>

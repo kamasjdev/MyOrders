@@ -26,7 +26,7 @@ export default class CustomerView extends AbstractView {
     async getHtml() {
         return `
             <div class="containerBox">
-                <h1>Product ${this.params.id}</h1>
+                <h1>Customer ${this.params.id}</h1>
                 ${this.loading ? loadingIcon() : `
                 <div>
                     <div class="d-flex justify-content-center">

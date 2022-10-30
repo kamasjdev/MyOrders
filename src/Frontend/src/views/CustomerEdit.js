@@ -291,7 +291,7 @@ export default class CustomerEdit extends AbstractView {
         }
         return `
             <div class="containerBox">
-                <h1>Add Customer</h1>
+                <h1>Edit Customer</h1>
                 <div class="mt-2">
                     <form>
                         <div class="form-group">

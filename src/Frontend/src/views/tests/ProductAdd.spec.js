@@ -10,12 +10,26 @@ describe('ProductAdd view', () => {
     global.history = hisoryMock;
     const app = document.querySelector('div#app');
 
+    const invokeAllHooks = async () => {
+        productAdd.beforeCreateView();
+        app.innerHTML = await productAdd.getHtml();
+        await productAdd.created();
+        app.innerHTML = await productAdd.getHtml();
+        productAdd.afterCreateView();
+        app.innerHTML = await productAdd.getHtml();
+    }
+
+    const renderHtml = async () => {
+        app.innerHTML = await productAdd.getHtml();
+
+    }
+
     beforeEach(() => {
         productAdd = new ProductAdd();
     })
 
     it('should render html', async () => {
-        app.innerHTML = await productAdd.getHtml();
+        await renderHtml();
         
         expect(app).not.toBeNull();
         expect(document).not.toBeNull();
@@ -23,13 +37,11 @@ describe('ProductAdd view', () => {
         expect(document.querySelector('.containerBox').textContent).toContain('Add Product');
     })
 
-    it('should render ProductApp view', async () => {
+    it('should render ProductAdd view', async () => {
         spyOn(axios, 'get').and.returnValue({ data: productKindsMock });
-        productAdd.beforeCreateView();
-        await productAdd.created();
-        productAdd.afterCreateView();
+        await invokeAllHooks();
 
-        app.innerHTML = await productAdd.getHtml();
+        await renderHtml();
 
         expect(app).not.toBeNull();
         expect(document).not.toBeNull();
@@ -38,13 +50,9 @@ describe('ProductAdd view', () => {
         expect(productKindsMock.map(pk => pk.productKindName).every(str => app.textContent.includes(str))).toBeTruthy();
     })
 
-    it('should fill ProductApp form with proper values', async () => {
+    it('should fill ProductAdd form with proper values', async () => {
         spyOn(axios, 'get').and.returnValue({ data: productKindsMock });
-        productAdd.beforeCreateView();
-        app.innerHTML = await productAdd.getHtml();
-        await productAdd.created();
-        app.innerHTML = await productAdd.getHtml();
-        productAdd.afterCreateView();
+        await invokeAllHooks();
         const valuesToAssign = assignInputs('Product#1', 100, productKindsMock[1].id);
 
         app.innerHTML = await productAdd.getHtml();
@@ -58,16 +66,12 @@ describe('ProductAdd view', () => {
         expect(valuesAssigned.productKind).toBe(valuesToAssign.productKind);
     })
 
-    it('should fill ProductApp form with invalid values and show errors', async () => {
+    it('should fill ProductAdd form with invalid values and show errors', async () => {
         spyOn(axios, 'get').and.returnValue({ data: productKindsMock });
-        productAdd.beforeCreateView();
-        app.innerHTML = await productAdd.getHtml();
-        await productAdd.created();
-        app.innerHTML = await productAdd.getHtml();
-        productAdd.afterCreateView();
+        await invokeAllHooks();
         const valuesToAssign = assignInputs('P', -100, productKindsMock[1].id);
 
-        app.innerHTML = await productAdd.getHtml();
+        await renderHtml();
 
         expect(document).not.toBeNull();
         expect(document.body.innerHTML.length).toBeGreaterThan(0);
@@ -79,25 +83,34 @@ describe('ProductAdd view', () => {
         expect(getErrors().every(str => app.textContent.includes(str))).toBeTruthy();
     })
 
-    it('should fill ProductApp form with proper values and send values to backend', async () => {
+    it('should fill ProductAdd form with proper values and send values to backend', async () => {
         spyOn(axios, 'get').and.returnValue({ data: productKindsMock });
         spyOn(axios, 'post').and.returnValue({ });
-        productAdd.beforeCreateView();
-        app.innerHTML = await productAdd.getHtml();
-        await productAdd.created();
-        app.innerHTML = await productAdd.getHtml();
-        productAdd.afterCreateView();
+        await invokeAllHooks();
         const valuesToAssign = assignInputs('Product#1', 100, productKindsMock[1].id);
         app.innerHTML = await productAdd.getHtml();
         
         await productAdd.sendForm();
-        app.innerHTML = await productAdd.getHtml();
+        await renderHtml();
 
         expect(axios.post).toHaveBeenCalledTimes(1);
         const valuesAssigned = getInputValuesFromInputs();
         expect(valuesAssigned.productName).toBe(valuesToAssign.productName);
         expect(valuesAssigned.price).toBe(valuesToAssign.price);
         expect(valuesAssigned.productKind).toBe(valuesToAssign.productKind);
+    })
+
+    it('should invoke onchange event on input with invalid value and show error', async () => {
+        spyOn(axios, 'get').and.returnValue({ data: productKindsMock });
+        await invokeAllHooks();
+        document.querySelector('#input-productName').dispatchEvent(new window.Event('change', { 'bubbles': true }));
+
+        await renderHtml();
+        
+        const errors = getErrors();
+        expect(errors).not.toBeNull();
+        expect(errors.length).toBeGreaterThan(0);
+        expect(errors.every(e => e.length > 0)).toBeTruthy();
     })
 
     const assignInputs = (productName, price, productKind) => {
