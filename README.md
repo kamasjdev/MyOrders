@@ -5,8 +5,20 @@ Projekt posiada aplikację serwerową oraz kliencką. Backend został napisany w
 Technologie:
 - Net 6
 - EF Core
-- SQLite
+- Pomelo EF Core
+- MySQL
 - Javascript
 - Jasmine
 - Babel
 - Axios
+
+Przykładowe screeny:
+
+![](screen1.png)
+![](screen2.png)
+![](screen3.png)
+![](screen4.png)
+![](screen5.png)
+![](screen6.png)
+![](screen7.png)
+![](screen8.png)
